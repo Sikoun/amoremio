@@ -1,0 +1,30 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { getCoupleState, updateSettings } from '@/lib/storage';
+
+export const dynamic = 'force-dynamic';
+
+export async function GET() {
+  try {
+    const state = getCoupleState();
+    return NextResponse.json(state, {
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching state:', error);
+    return NextResponse.json({ error: 'Failed to fetch state' }, { status: 500 });
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { partner1Name, partner2Name, anniversaryDate } = body;
+    const updated = updateSettings(partner1Name, partner2Name, anniversaryDate);
+    return NextResponse.json(updated);
+  } catch (error) {
+    console.error('Error updating settings:', error);
+    return NextResponse.json({ error: 'Failed to update settings' }, { status: 500 });
+  }
+}
