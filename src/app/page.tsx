@@ -7,7 +7,6 @@ import { Header } from '@/components/Header';
 import { AnniversaryCard } from '@/components/AnniversaryCard';
 import { DailyQuestionCard } from '@/components/DailyQuestionCard';
 import { MoodAndPokeCard } from '@/components/MoodAndPokeCard';
-import { WidgetPreviewModal } from '@/components/WidgetPreviewModal';
 import { SettingsModal } from '@/components/SettingsModal';
 import { HistoryModal } from '@/components/HistoryModal';
 import { Heart, Sparkles, RefreshCw } from 'lucide-react';
@@ -19,7 +18,6 @@ function AmoreMioContent() {
   const [isLoading, setIsLoading] = useState(true);
 
   // Modals
-  const [isWidgetModalOpen, setIsWidgetModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
 
@@ -108,7 +106,6 @@ function AmoreMioContent() {
         coupleState={coupleState}
         onOpenHistory={() => setIsHistoryModalOpen(true)}
         onOpenSettings={() => setIsSettingsModalOpen(true)}
-        onOpenWidgetModal={() => setIsWidgetModalOpen(true)}
       />
 
       {/* PWA 1-Tap Install Banner (when installable) */}
@@ -147,23 +144,7 @@ function AmoreMioContent() {
         onStateUpdated={(newState) => setCoupleState(newState)}
       />
 
-      {/* Bottom Floating Quick Widget Bar */}
-      <div className="mt-auto pt-4 pb-2 text-center">
-        <button
-          onClick={() => setIsWidgetModalOpen(true)}
-          className="inline-flex items-center gap-2 text-xs font-semibold text-rose-600 bg-white/80 hover:bg-rose-50 border border-rose-200/80 px-3.5 py-1.5 rounded-full shadow-2xs transition active:scale-95"
-        >
-          <Sparkles className="w-3.5 h-3.5 text-rose-500" />
-          <span>Home Screen Widget Setup (Widgy / KWGT)</span>
-        </button>
-      </div>
-
       {/* Modals */}
-      <WidgetPreviewModal
-        isOpen={isWidgetModalOpen}
-        onClose={() => setIsWidgetModalOpen(false)}
-        currentPartner={currentPartner}
-      />
 
       <SettingsModal
         isOpen={isSettingsModalOpen}

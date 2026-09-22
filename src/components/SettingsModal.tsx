@@ -119,7 +119,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               required
             />
             <p className="text-[10px] text-rose-400 mt-1">
-              Used to calculate &ldquo;Days Together&rdquo; for your app and home screen widgets.
+              Used to calculate &ldquo;Days Together&rdquo; for your couple milestones.
             </p>
           </div>
 

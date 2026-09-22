@@ -37,16 +37,6 @@ export interface Poke {
   timestamp: string;
 }
 
-export type WidgetTheme = 'rose' | 'lavender' | 'matcha' | 'peach' | 'midnight' | 'minimal';
-
-export interface WidgetPreferences {
-  theme: WidgetTheme;
-  showDays: boolean;
-  showCategory: boolean;
-  showPartnerStatus: boolean;
-  roundedCorners: boolean;
-}
-
 export interface CoupleData {
   anniversaryDate: string; // YYYY-MM-DD
   partner1: Partner;
@@ -54,33 +44,5 @@ export interface CoupleData {
   dailyQuestions: Record<string, Question>;
   answers: Record<string, DailyAnswers>; // keyed by date YYYY-MM-DD
   recentPokes: Poke[];
-  widgetPreferences?: {
-    partner1?: WidgetPreferences;
-    partner2?: WidgetPreferences;
-  };
 }
 
-export interface WidgyResponse {
-  app_name: string;
-  headline: string;
-  question_text: string;
-  question_category: string;
-  days_together: string;
-  days_together_num: number;
-  partner_name: string;
-  partner_mood: string;
-  partner_mood_emoji: string;
-  partner_status_badge: string;
-  unlock_status: 'locked' | 'unlocked' | 'waiting_partner' | 'needs_my_answer';
-  status_message: string;
-  last_poke_text: string;
-  last_poke_time: string;
-  deep_link_url: string;
-  updated_at: string;
-}
-
-export interface W12Row {
-  key: string;
-  value?: string;
-  color?: 'main' | 'success' | 'danger' | 'warning';
-}

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { PartnerId, CoupleData } from '@/lib/types';
-import { Heart, Sparkles, BookOpen, Settings, Smartphone } from 'lucide-react';
+import { Heart, Sparkles, BookOpen, Settings } from 'lucide-react';
 
 interface HeaderProps {
   currentPartner: PartnerId;
@@ -10,7 +10,6 @@ interface HeaderProps {
   coupleState: CoupleData;
   onOpenHistory: () => void;
   onOpenSettings: () => void;
-  onOpenWidgetModal: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -19,7 +18,6 @@ export const Header: React.FC<HeaderProps> = ({
   coupleState,
   onOpenHistory,
   onOpenSettings,
-  onOpenWidgetModal,
 }) => {
   const me = coupleState[currentPartner];
   const partnerId: PartnerId = currentPartner === 'partner1' ? 'partner2' : 'partner1';
@@ -64,14 +62,6 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Action icons */}
         <div className="flex items-center gap-1.5">
-          <button
-            onClick={onOpenWidgetModal}
-            aria-label="Widget Setup"
-            title="Widget Setup (Widgy / KWGT)"
-            className="w-9 h-9 rounded-xl bg-white border border-rose-100 text-rose-600 flex items-center justify-center hover:bg-rose-50 transition active:scale-95 shadow-xs"
-          >
-            <Smartphone className="w-4 h-4" />
-          </button>
           <button
             onClick={onOpenHistory}
             aria-label="Memories History"
