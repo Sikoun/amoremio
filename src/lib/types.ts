@@ -1,10 +1,24 @@
 export type PartnerId = 'partner1' | 'partner2';
 
+export type PetType = 'sealion' | 'lion' | 'bear' | 'bunny' | 'cat' | 'fox' | 'panda' | 'penguin';
+
+export const PET_EMOJIS: Record<PetType, string> = {
+  sealion: '🦭',
+  lion: '🦁',
+  bear: '🐻',
+  bunny: '🐰',
+  cat: '🐱',
+  fox: '🦊',
+  panda: '🐼',
+  penguin: '🐧',
+};
+
 export interface Partner {
   id: PartnerId;
   name: string;
   nickname: string;
   avatarEmoji: string;
+  pet?: PetType;
   mood: string;
   moodEmoji: string;
   lastActive: string;

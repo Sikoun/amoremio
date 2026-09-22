@@ -111,11 +111,13 @@ function AmoreMioContent() {
           onOpenSettings={() => setIsSettingsModalOpen(true)}
         />
 
-        {/* Hero Mascot: Gaspar the Lion & Mi Amor the Sea Lion */}
+        {/* Hero Mascot: Customizable Couple Pets */}
         <div className="flex justify-center my-1.5 animate-float">
           <CoupleMascot
             partner1Name={coupleState.partner1.name}
             partner2Name={coupleState.partner2.name}
+            partner1Pet={coupleState.partner1.pet || 'sealion'}
+            partner2Pet={coupleState.partner2.pet || 'lion'}
           />
         </div>
 
@@ -139,7 +141,11 @@ function AmoreMioContent() {
         )}
 
         {/* Anniversary & Days Together Card */}
-        <AnniversaryCard anniversaryDate={coupleState.anniversaryDate} />
+        <AnniversaryCard
+          anniversaryDate={coupleState.anniversaryDate}
+          partner1Emoji={coupleState.partner1.avatarEmoji || '🦭'}
+          partner2Emoji={coupleState.partner2.avatarEmoji || '🦁'}
+        />
 
         {/* Daily Question (Blind Reveal) */}
         <DailyQuestionCard

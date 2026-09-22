@@ -5,12 +5,14 @@ import React from 'react';
 interface MilestoneJourneyProps {
   days: number;
   nextMilestone: number;
+  walkerEmojis?: string;
   className?: string;
 }
 
 export const MilestoneJourney: React.FC<MilestoneJourneyProps> = ({
   days,
   nextMilestone,
+  walkerEmojis = '🦭🦁',
   className = '',
 }) => {
   // Previous milestone baseline (e.g. 1000 if next is 1500, or 0)
@@ -127,7 +129,7 @@ export const MilestoneJourney: React.FC<MilestoneJourneyProps> = ({
             fontSize="11"
             fontFamily="sans-serif"
           >
-            🦁🦭
+            {walkerEmojis}
           </text>
 
           {/* Arrow Pointer */}

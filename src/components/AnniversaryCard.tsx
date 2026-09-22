@@ -8,9 +8,15 @@ import { haptic } from '@/lib/haptics';
 
 interface AnniversaryCardProps {
   anniversaryDate: string;
+  partner1Emoji?: string;
+  partner2Emoji?: string;
 }
 
-export const AnniversaryCard: React.FC<AnniversaryCardProps> = ({ anniversaryDate }) => {
+export const AnniversaryCard: React.FC<AnniversaryCardProps> = ({
+  anniversaryDate,
+  partner1Emoji = '🦭',
+  partner2Emoji = '🦁',
+}) => {
   const days = calculateDaysTogether(anniversaryDate);
 
   // Milestone thresholds
@@ -65,7 +71,11 @@ export const AnniversaryCard: React.FC<AnniversaryCardProps> = ({ anniversaryDat
 
       {/* SVG Milestone Journey Path */}
       <div className="mt-3 pt-2 border-t border-rose-200/60 relative z-10">
-        <MilestoneJourney days={days} nextMilestone={nextMilestone} />
+        <MilestoneJourney
+          days={days}
+          nextMilestone={nextMilestone}
+          walkerEmojis={`${partner1Emoji}${partner2Emoji}`}
+        />
       </div>
 
       {/* Footer Milestone Note */}

@@ -20,8 +20,8 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { partner1Name, partner2Name, anniversaryDate } = body;
-    const updated = updateSettings(partner1Name, partner2Name, anniversaryDate);
+    const { partner1Name, partner2Name, anniversaryDate, partner1Pet, partner2Pet } = body;
+    const updated = updateSettings(partner1Name, partner2Name, anniversaryDate, partner1Pet, partner2Pet);
     return NextResponse.json(updated);
   } catch (error) {
     console.error('Error updating settings:', error);

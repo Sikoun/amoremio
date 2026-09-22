@@ -1,8 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { CoupleData, PartnerId, Question, Poke } from './types';
+import { CoupleData, PartnerId, Question, Poke, PetType, PET_EMOJIS } from './types';
 import { QUESTION_BANK } from './questionBank';
 import { calculateDaysTogether } from './calculations';
+
+export { PET_EMOJIS };
 
 const DATA_DIR = process.env.VERCEL
   ? path.join('/tmp', 'amoremio_data')
@@ -14,8 +16,9 @@ const DEFAULT_STATE: CoupleData = {
   partner1: {
     id: 'partner1',
     name: 'Gaspar',
-    nickname: 'My Lion',
-    avatarEmoji: '🦁',
+    nickname: 'My Sea Lion',
+    avatarEmoji: '🦭',
+    pet: 'sealion',
     mood: 'Thinking of you',
     moodEmoji: '🥰',
     lastActive: new Date().toISOString(),
@@ -23,8 +26,9 @@ const DEFAULT_STATE: CoupleData = {
   partner2: {
     id: 'partner2',
     name: 'Mi Amor',
-    nickname: 'My Sea Lion',
-    avatarEmoji: '🦭',
+    nickname: 'My Lion',
+    avatarEmoji: '🦁',
+    pet: 'lion',
     mood: 'Missing you',
     moodEmoji: '🥺',
     lastActive: new Date().toISOString(),
@@ -178,12 +182,22 @@ export function sendPoke(
 export function updateSettings(
   partner1Name?: string,
   partner2Name?: string,
-  anniversaryDate?: string
+  anniversaryDate?: string,
+  partner1Pet?: PetType,
+  partner2Pet?: PetType
 ): CoupleData {
   const state = getCoupleState();
   if (partner1Name) state.partner1.name = partner1Name.trim();
   if (partner2Name) state.partner2.name = partner2Name.trim();
   if (anniversaryDate) state.anniversaryDate = anniversaryDate.trim();
+  if (partner1Pet && PET_EMOJIS[partner1Pet]) {
+    state.partner1.pet = partner1Pet;
+    state.partner1.avatarEmoji = PET_EMOJIS[partner1Pet];
+  }
+  if (partner2Pet && PET_EMOJIS[partner2Pet]) {
+    state.partner2.pet = partner2Pet;
+    state.partner2.avatarEmoji = PET_EMOJIS[partner2Pet];
+  }
 
   saveState(state);
   return state;
