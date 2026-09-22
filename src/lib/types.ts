@@ -37,6 +37,16 @@ export interface Poke {
   timestamp: string;
 }
 
+export type WidgetTheme = 'rose' | 'lavender' | 'matcha' | 'peach' | 'midnight' | 'minimal';
+
+export interface WidgetPreferences {
+  theme: WidgetTheme;
+  showDays: boolean;
+  showCategory: boolean;
+  showPartnerStatus: boolean;
+  roundedCorners: boolean;
+}
+
 export interface CoupleData {
   anniversaryDate: string; // YYYY-MM-DD
   partner1: Partner;
@@ -44,6 +54,10 @@ export interface CoupleData {
   dailyQuestions: Record<string, Question>;
   answers: Record<string, DailyAnswers>; // keyed by date YYYY-MM-DD
   recentPokes: Poke[];
+  widgetPreferences?: {
+    partner1?: WidgetPreferences;
+    partner2?: WidgetPreferences;
+  };
 }
 
 export interface WidgyResponse {

@@ -1,37 +1,133 @@
 import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
-import { getWidgyPayload } from '@/lib/storage';
-import { PartnerId } from '@/lib/types';
+import { getWidgyPayload, getWidgetPreferences } from '@/lib/storage';
+import { PartnerId, WidgetTheme } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
+
+interface ThemeTokens {
+  bgGradient: string;
+  cardBorder: string;
+  textColor: string;
+  subtextColor: string;
+  badgeBg: string;
+  badgeBorder: string;
+  badgeText: string;
+  pillBg: string;
+  watermarkColor: string;
+}
+
+const THEMES: Record<WidgetTheme, ThemeTokens> = {
+  rose: {
+    bgGradient: 'linear-gradient(135deg, #fff1f2 0%, #ffe4e6 45%, #fecdd3 100%)',
+    cardBorder: '#fecdd3',
+    textColor: '#881337',
+    subtextColor: '#9f1239',
+    badgeBg: 'rgba(255, 255, 255, 0.85)',
+    badgeBorder: '#fecdd3',
+    badgeText: '#e11d48',
+    pillBg: 'rgba(255, 255, 255, 0.9)',
+    watermarkColor: 'rgba(159, 18, 57, 0.35)',
+  },
+  lavender: {
+    bgGradient: 'linear-gradient(135deg, #faf5ff 0%, #f3e8ff 45%, #e9d5ff 100%)',
+    cardBorder: '#d8b4fe',
+    textColor: '#581c87',
+    subtextColor: '#7e22ce',
+    badgeBg: 'rgba(255, 255, 255, 0.85)',
+    badgeBorder: '#d8b4fe',
+    badgeText: '#9333ea',
+    pillBg: 'rgba(255, 255, 255, 0.9)',
+    watermarkColor: 'rgba(126, 34, 206, 0.35)',
+  },
+  matcha: {
+    bgGradient: 'linear-gradient(135deg, #f7fee7 0%, #ecfccb 45%, #d9f99d 100%)',
+    cardBorder: '#bef264',
+    textColor: '#365314',
+    subtextColor: '#4d7c0f',
+    badgeBg: 'rgba(255, 255, 255, 0.85)',
+    badgeBorder: '#bef264',
+    badgeText: '#65a30d',
+    pillBg: 'rgba(255, 255, 255, 0.9)',
+    watermarkColor: 'rgba(77, 124, 15, 0.35)',
+  },
+  peach: {
+    bgGradient: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 45%, #fed7aa 100%)',
+    cardBorder: '#fdba74',
+    textColor: '#7c2d12',
+    subtextColor: '#c2410c',
+    badgeBg: 'rgba(255, 255, 255, 0.85)',
+    badgeBorder: '#fdba74',
+    badgeText: '#ea580c',
+    pillBg: 'rgba(255, 255, 255, 0.9)',
+    watermarkColor: 'rgba(194, 65, 12, 0.35)',
+  },
+  midnight: {
+    bgGradient: 'linear-gradient(135deg, #09090b 0%, #18181b 50%, #27272a 100%)',
+    cardBorder: '#3f3f46',
+    textColor: '#fafafa',
+    subtextColor: '#a1a1aa',
+    badgeBg: 'rgba(255, 255, 255, 0.08)',
+    badgeBorder: '#3f3f46',
+    badgeText: '#fb7185',
+    pillBg: 'rgba(255, 255, 255, 0.08)',
+    watermarkColor: 'rgba(255, 255, 255, 0.25)',
+  },
+  minimal: {
+    bgGradient: 'linear-gradient(135deg, #ffffff 0%, #fafafa 50%, #f4f4f5 100%)',
+    cardBorder: '#e4e4e7',
+    textColor: '#18181b',
+    subtextColor: '#71717a',
+    badgeBg: '#ffffff',
+    badgeBorder: '#e4e4e7',
+    badgeText: '#18181b',
+    pillBg: '#ffffff',
+    watermarkColor: 'rgba(24, 24, 27, 0.3)',
+  },
+};
+
+function resolvePartner(param: string | null): PartnerId {
+  if (param === 'partner2' || param === 'her' || param === 'them' || param === 'p2') {
+    return 'partner2';
+  }
+  return 'partner1';
+}
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const partnerParam = searchParams.get('partner') || 'partner1';
-    const theme = searchParams.get('theme') || 'rose'; // 'rose' | 'dark'
+    const targetPartner = resolvePartner(searchParams.get('partner'));
+    const savedPrefs = getWidgetPreferences(targetPartner);
 
-    let targetPartner: PartnerId = 'partner1';
-    if (
-      partnerParam === 'partner2' ||
-      partnerParam === 'her' ||
-      partnerParam === 'them' ||
-      partnerParam === 'p2'
-    ) {
-      targetPartner = 'partner2';
-    }
+    // Allow query params to override stored preferences (great for live previews)
+    const rawTheme = (searchParams.get('theme') as WidgetTheme) || savedPrefs.theme;
+    const themeKey: WidgetTheme = THEMES[rawTheme] ? rawTheme : 'rose';
+    const theme = THEMES[themeKey];
+
+    const showDays = searchParams.has('showDays')
+      ? searchParams.get('showDays') === 'true'
+      : savedPrefs.showDays;
+
+    const showCategory = searchParams.has('showCategory')
+      ? searchParams.get('showCategory') === 'true'
+      : savedPrefs.showCategory;
+
+    const showPartnerStatus = searchParams.has('showPartnerStatus')
+      ? searchParams.get('showPartnerStatus') === 'true'
+      : savedPrefs.showPartnerStatus;
+
+    const roundedCorners = searchParams.has('rounded')
+      ? searchParams.get('rounded') === 'true'
+      : savedPrefs.roundedCorners;
 
     const data = getWidgyPayload(targetPartner);
 
-    const isDark = theme === 'dark';
-    const bgGradient = isDark
-      ? 'linear-gradient(135deg, #18181b 0%, #27272a 50%, #09090b 100%)'
-      : 'linear-gradient(135deg, #fff1f2 0%, #ffe4e6 45%, #fecdd3 100%)';
-    const cardBorder = isDark ? '#3f3f46' : '#fecdd3';
-    const textColor = isDark ? '#ffffff' : '#4c0519';
-    const subtextColor = isDark ? '#a1a1aa' : '#9f1239';
-    const badgeBg = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.7)';
-    const badgeText = isDark ? '#f43f5e' : '#e11d48';
+    const questionFontSize =
+      data.question_text.length > 90
+        ? '44px'
+        : data.question_text.length > 50
+        ? '52px'
+        : '60px';
 
     return new ImageResponse(
       (
@@ -42,12 +138,12 @@ export async function GET(request: NextRequest) {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            padding: '36px 44px',
-            background: bgGradient,
+            padding: '56px 64px',
+            background: theme.bgGradient,
             fontFamily: 'sans-serif',
             position: 'relative',
-            borderRadius: '40px',
-            border: `3px solid ${cardBorder}`,
+            borderRadius: roundedCorners ? '56px' : '0px',
+            border: roundedCorners ? `4px solid ${theme.cardBorder}` : 'none',
           }}
         >
           {/* Header Row */}
@@ -59,53 +155,59 @@ export async function GET(request: NextRequest) {
               width: '100%',
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                background: badgeBg,
-                padding: '8px 18px',
-                borderRadius: '999px',
-                border: `1.5px solid ${cardBorder}`,
-              }}
-            >
-              <span style={{ fontSize: '18px' }}>✨</span>
-              <span
+            {showCategory ? (
+              <div
                 style={{
-                  fontSize: '16px',
-                  fontWeight: 800,
-                  letterSpacing: '1px',
-                  color: badgeText,
-                  textTransform: 'uppercase',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  background: theme.badgeBg,
+                  padding: '12px 24px',
+                  borderRadius: '999px',
+                  border: `2px solid ${theme.badgeBorder}`,
                 }}
               >
-                {data.question_category}
-              </span>
-            </div>
+                <span style={{ fontSize: '26px' }}>✨</span>
+                <span
+                  style={{
+                    fontSize: '22px',
+                    fontWeight: 800,
+                    letterSpacing: '1.5px',
+                    color: theme.badgeText,
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  {data.question_category}
+                </span>
+              </div>
+            ) : (
+              <div style={{ display: 'flex' }} />
+            )}
 
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: badgeBg,
-                padding: '8px 18px',
-                borderRadius: '999px',
-                border: `1.5px solid ${cardBorder}`,
-              }}
-            >
-              <span style={{ fontSize: '18px' }}>💕</span>
-              <span
+            {showDays && (
+              <div
                 style={{
-                  fontSize: '16px',
-                  fontWeight: 800,
-                  color: subtextColor,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  background: theme.badgeBg,
+                  padding: '12px 24px',
+                  borderRadius: '999px',
+                  border: `2px solid ${theme.badgeBorder}`,
                 }}
               >
-                {data.days_together}
-              </span>
-            </div>
+                <span style={{ fontSize: '26px' }}>💕</span>
+                <span
+                  style={{
+                    fontSize: '22px',
+                    fontWeight: 800,
+                    color: theme.subtextColor,
+                  }}
+                >
+                  {data.days_together}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Question Text in Center */}
@@ -114,15 +216,16 @@ export async function GET(request: NextRequest) {
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              margin: '12px 0',
+              margin: '20px 0',
+              flex: 1,
             }}
           >
             <span
               style={{
-                fontSize: data.question_text.length > 70 ? '24px' : '28px',
+                fontSize: questionFontSize,
                 fontWeight: 700,
                 lineHeight: 1.35,
-                color: textColor,
+                color: theme.textColor,
                 textWrap: 'balance',
               }}
             >
@@ -137,59 +240,58 @@ export async function GET(request: NextRequest) {
               alignItems: 'center',
               justifyContent: 'space-between',
               width: '100%',
-              paddingTop: '16px',
-              borderTop: `1.5px solid ${cardBorder}`,
+              paddingTop: '24px',
+              borderTop: `2px solid ${theme.cardBorder}`,
             }}
           >
             {/* Left: Partner status and mood */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            {showPartnerStatus ? (
               <div
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  background: isDark ? 'rgba(255,255,255,0.08)' : '#ffffff',
-                  padding: '6px 14px',
-                  borderRadius: '16px',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+                  gap: '12px',
+                  background: theme.pillBg,
+                  padding: '10px 22px',
+                  borderRadius: '24px',
+                  border: `1.5px solid ${theme.badgeBorder}`,
                 }}
               >
-                <span style={{ fontSize: '20px' }}>{data.partner_mood_emoji}</span>
+                <span style={{ fontSize: '28px' }}>{data.partner_mood_emoji}</span>
                 <span
                   style={{
-                    fontSize: '15px',
+                    fontSize: '22px',
                     fontWeight: 700,
-                    color: subtextColor,
+                    color: theme.subtextColor,
                   }}
                 >
                   {data.partner_name}: {data.partner_status_badge}
                 </span>
               </div>
-            </div>
+            ) : (
+              <div style={{ display: 'flex' }} />
+            )}
 
-            {/* Right: Tap indicator */}
+            {/* Right: Clean, discreet app branding */}
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px',
-                background: '#f43f5e',
-                color: '#ffffff',
-                padding: '6px 16px',
-                borderRadius: '14px',
-                fontWeight: 800,
-                fontSize: '14px',
-                boxShadow: '0 4px 10px rgba(244, 63, 94, 0.3)',
+                gap: '8px',
+                fontSize: '20px',
+                fontWeight: 700,
+                color: theme.watermarkColor,
+                letterSpacing: '0.5px',
               }}
             >
-              <span>Tap to Open 💕</span>
+              <span>Amore Mio</span>
             </div>
           </div>
         </div>
       ),
       {
-        width: 800,
-        height: 420,
+        width: 1600,
+        height: 840,
         headers: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
         },

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { CoupleData, PartnerId, Question, WidgyResponse, Poke, W12Row } from './types';
+import { CoupleData, PartnerId, Question, WidgyResponse, Poke, W12Row, WidgetPreferences, WidgetTheme } from './types';
 import { QUESTION_BANK } from './questionBank';
 import { calculateDaysTogether } from './calculations';
 
@@ -347,3 +347,39 @@ export function getW12Payload(forPartnerId: PartnerId): W12Row[] {
 
   return rows.slice(0, 12);
 }
+
+export const DEFAULT_WIDGET_PREFERENCES: WidgetPreferences = {
+  theme: 'rose',
+  showDays: true,
+  showCategory: true,
+  showPartnerStatus: true,
+  roundedCorners: true,
+};
+
+export function getWidgetPreferences(partnerId: PartnerId): WidgetPreferences {
+  const state = getCoupleState();
+  const partnerPrefs = state.widgetPreferences?.[partnerId];
+  return {
+    ...DEFAULT_WIDGET_PREFERENCES,
+    ...(partnerPrefs || {}),
+  };
+}
+
+export function saveWidgetPreferences(
+  partnerId: PartnerId,
+  prefs: Partial<WidgetPreferences>
+): WidgetPreferences {
+  const state = getCoupleState();
+  if (!state.widgetPreferences) {
+    state.widgetPreferences = {};
+  }
+  const current = state.widgetPreferences[partnerId] || { ...DEFAULT_WIDGET_PREFERENCES };
+  const updated: WidgetPreferences = {
+    ...current,
+    ...prefs,
+  };
+  state.widgetPreferences[partnerId] = updated;
+  saveState(state);
+  return updated;
+}
+
