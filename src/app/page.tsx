@@ -52,9 +52,36 @@ function AmoreMioContent() {
     }
   };
 
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
+
   useEffect(() => {
     fetchState();
+
+    // Register service worker for Android PWA WebAPK installability
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch((err) => {
+        console.warn('Service worker registration failed:', err);
+      });
+    }
+
+    // Capture install prompt
+    const handleBeforeInstall = (e: Event) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
   }, []);
+
+  const handleInstallApp = async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    const { outcome } = await installPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setInstallPrompt(null);
+    }
+  };
 
   const handleSwitchPartner = (newPartner: PartnerId) => {
     setCurrentPartner(newPartner);
@@ -83,6 +110,25 @@ function AmoreMioContent() {
         onOpenSettings={() => setIsSettingsModalOpen(true)}
         onOpenWidgetModal={() => setIsWidgetModalOpen(true)}
       />
+
+      {/* PWA 1-Tap Install Banner (when installable) */}
+      {installPrompt && (
+        <div className="my-2 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-2xl p-3 flex items-center justify-between shadow-md animate-in slide-in-from-top-2 duration-300">
+          <div className="flex items-center gap-2.5">
+            <span className="text-2xl">📱</span>
+            <div>
+              <p className="text-xs font-bold leading-tight">Install Amore Mio</p>
+              <p className="text-[10px] text-rose-100">Standalone full screen, no browser bar!</p>
+            </div>
+          </div>
+          <button
+            onClick={handleInstallApp}
+            className="bg-white hover:bg-rose-50 text-rose-600 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs active:scale-95 transition"
+          >
+            Install
+          </button>
+        </div>
+      )}
 
       {/* Anniversary & Days Together Card */}
       <AnniversaryCard anniversaryDate={coupleState.anniversaryDate} />

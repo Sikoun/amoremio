@@ -1,0 +1,39 @@
+{
+  "anniversaryDate": "2023-01-01",
+  "partner1": {
+    "id": "partner1",
+    "name": "Gaspar",
+    "nickname": "Babe",
+    "avatarEmoji": "🐻",
+    "mood": "Sleepy",
+    "moodEmoji": "😴",
+    "lastActive": "2026-09-22T21:26:19.468Z"
+  },
+  "partner2": {
+    "id": "partner2",
+    "name": "Mi Amor",
+    "nickname": "Princess",
+    "avatarEmoji": "🐰",
+    "mood": "Missing you",
+    "moodEmoji": "🥺",
+    "lastActive": "2026-09-22T21:14:19.600Z"
+  },
+  "dailyQuestions": {
+    "2026-09-22": {
+      "id": "q-2026-09-22",
+      "text": "What is one thing I do that always manages to calm you down when you're stressed?",
+      "category": "deep",
+      "date": "2026-09-22"
+    }
+  },
+  "answers": {},
+  "recentPokes": [
+    {
+      "id": "poke-init",
+      "from": "partner2",
+      "message": "Sent you a warm hug!",
+      "emoji": "🫂",
+      "timestamp": "2026-09-22T21:14:19.600Z"
+    }
+  ]
+}

@@ -4,7 +4,9 @@ import { CoupleData, PartnerId, Question, WidgyResponse, Poke } from './types';
 import { QUESTION_BANK } from './questionBank';
 import { calculateDaysTogether } from './calculations';
 
-const DATA_DIR = path.join(process.cwd(), 'data');
+const DATA_DIR = process.env.VERCEL
+  ? path.join('/tmp', 'amoremio_data')
+  : path.join(process.cwd(), 'data');
 const DATA_FILE = path.join(DATA_DIR, 'store.json');
 
 const DEFAULT_STATE: CoupleData = {
@@ -40,31 +42,40 @@ const DEFAULT_STATE: CoupleData = {
   ],
 };
 
+// In-memory fallback if filesystem is strictly read-only
+let memoryState: CoupleData = { ...DEFAULT_STATE };
+
 function ensureDataFile(): CoupleData {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-
-  if (!fs.existsSync(DATA_FILE)) {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(DEFAULT_STATE, null, 2), 'utf-8');
-    return DEFAULT_STATE;
-  }
-
   try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+
+    if (!fs.existsSync(DATA_FILE)) {
+      fs.writeFileSync(DATA_FILE, JSON.stringify(DEFAULT_STATE, null, 2), 'utf-8');
+      return DEFAULT_STATE;
+    }
+
     const raw = fs.readFileSync(DATA_FILE, 'utf-8');
     const parsed = JSON.parse(raw);
-    return { ...DEFAULT_STATE, ...parsed };
+    memoryState = { ...DEFAULT_STATE, ...parsed };
+    return memoryState;
   } catch (error) {
-    console.error('Error reading data file, falling back to default:', error);
-    return DEFAULT_STATE;
+    console.warn('Filesystem access warning (using in-memory state):', error);
+    return memoryState;
   }
 }
 
 export function saveState(data: CoupleData): void {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
+  memoryState = data;
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
+  } catch (error) {
+    console.warn('Filesystem write warning (state kept in memory):', error);
   }
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
 }
 
 export function getCoupleState(): CoupleData {
