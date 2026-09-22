@@ -9,6 +9,8 @@ import { DailyQuestionCard } from '@/components/DailyQuestionCard';
 import { MoodAndPokeCard } from '@/components/MoodAndPokeCard';
 import { SettingsModal } from '@/components/SettingsModal';
 import { HistoryModal } from '@/components/HistoryModal';
+import { ReactionProvider } from '@/components/graphics/FloatingReactions';
+import { CoupleMascot } from '@/components/graphics/CoupleMascot';
 import { Heart, Sparkles, RefreshCw } from 'lucide-react';
 
 function AmoreMioContent() {
@@ -98,67 +100,76 @@ function AmoreMioContent() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen pb-safe">
-      {/* Top Header with Partner Switcher */}
-      <Header
-        currentPartner={currentPartner}
-        onSwitchPartner={handleSwitchPartner}
-        coupleState={coupleState}
-        onOpenHistory={() => setIsHistoryModalOpen(true)}
-        onOpenSettings={() => setIsSettingsModalOpen(true)}
-      />
+    <ReactionProvider>
+      <div className="flex flex-col min-h-screen pb-safe">
+        {/* Top Header with Partner Switcher */}
+        <Header
+          currentPartner={currentPartner}
+          onSwitchPartner={handleSwitchPartner}
+          coupleState={coupleState}
+          onOpenHistory={() => setIsHistoryModalOpen(true)}
+          onOpenSettings={() => setIsSettingsModalOpen(true)}
+        />
 
-      {/* PWA 1-Tap Install Banner (when installable) */}
-      {installPrompt && (
-        <div className="my-2 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-2xl p-3 flex items-center justify-between shadow-md animate-in slide-in-from-top-2 duration-300">
-          <div className="flex items-center gap-2.5">
-            <span className="text-2xl">📱</span>
-            <div>
-              <p className="text-xs font-bold leading-tight">Install Amore Mio</p>
-              <p className="text-[10px] text-rose-100">Standalone full screen, no browser bar!</p>
-            </div>
-          </div>
-          <button
-            onClick={handleInstallApp}
-            className="bg-white hover:bg-rose-50 text-rose-600 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs active:scale-95 transition"
-          >
-            Install
-          </button>
+        {/* Hero Mascot: Gaspar the Lion & Mi Amor the Sea Lion */}
+        <div className="flex justify-center my-1.5 animate-float">
+          <CoupleMascot
+            partner1Name={coupleState.partner1.name}
+            partner2Name={coupleState.partner2.name}
+          />
         </div>
-      )}
 
-      {/* Anniversary & Days Together Card */}
-      <AnniversaryCard anniversaryDate={coupleState.anniversaryDate} />
+        {/* PWA 1-Tap Install Banner (when installable) */}
+        {installPrompt && (
+          <div className="my-2 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-2xl p-3 flex items-center justify-between shadow-md animate-in slide-in-from-top-2 duration-300">
+            <div className="flex items-center gap-2.5">
+              <span className="text-2xl">📱</span>
+              <div>
+                <p className="text-xs font-bold leading-tight">Install Amore Mio</p>
+                <p className="text-[10px] text-rose-100">Standalone full screen, no browser bar!</p>
+              </div>
+            </div>
+            <button
+              onClick={handleInstallApp}
+              className="bg-white hover:bg-rose-50 text-rose-600 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs active:scale-95 transition"
+            >
+              Install
+            </button>
+          </div>
+        )}
 
-      {/* Daily Question (Blind Reveal) */}
-      <DailyQuestionCard
-        currentPartner={currentPartner}
-        coupleState={coupleState}
-        onAnswerSubmitted={(newState) => setCoupleState(newState)}
-      />
+        {/* Anniversary & Days Together Card */}
+        <AnniversaryCard anniversaryDate={coupleState.anniversaryDate} />
 
-      {/* Mood Tracker & Love Pings */}
-      <MoodAndPokeCard
-        currentPartner={currentPartner}
-        coupleState={coupleState}
-        onStateUpdated={(newState) => setCoupleState(newState)}
-      />
+        {/* Daily Question (Blind Reveal) */}
+        <DailyQuestionCard
+          currentPartner={currentPartner}
+          coupleState={coupleState}
+          onAnswerSubmitted={(newState) => setCoupleState(newState)}
+        />
 
-      {/* Modals */}
+        {/* Mood Tracker & Love Pings */}
+        <MoodAndPokeCard
+          currentPartner={currentPartner}
+          coupleState={coupleState}
+          onStateUpdated={(newState) => setCoupleState(newState)}
+        />
 
-      <SettingsModal
-        isOpen={isSettingsModalOpen}
-        onClose={() => setIsSettingsModalOpen(false)}
-        coupleState={coupleState}
-        onStateUpdated={(newState) => setCoupleState(newState)}
-      />
+        {/* Modals */}
+        <SettingsModal
+          isOpen={isSettingsModalOpen}
+          onClose={() => setIsSettingsModalOpen(false)}
+          coupleState={coupleState}
+          onStateUpdated={(newState) => setCoupleState(newState)}
+        />
 
-      <HistoryModal
-        isOpen={isHistoryModalOpen}
-        onClose={() => setIsHistoryModalOpen(false)}
-        coupleState={coupleState}
-      />
-    </div>
+        <HistoryModal
+          isOpen={isHistoryModalOpen}
+          onClose={() => setIsHistoryModalOpen(false)}
+          coupleState={coupleState}
+        />
+      </div>
+    </ReactionProvider>
   );
 }
 

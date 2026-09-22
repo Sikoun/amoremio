@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { PartnerId, CoupleData, Question } from '@/lib/types';
 import { Lock, Unlock, Send, Sparkles, Heart, CheckCircle2, Clock } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { LoveEnvelope } from './graphics/LoveEnvelope';
+import { useFloatingReactions } from './graphics/FloatingReactions';
+import { haptic } from '@/lib/haptics';
 
 interface DailyQuestionCardProps {
   currentPartner: PartnerId;
@@ -19,6 +22,8 @@ export const DailyQuestionCard: React.FC<DailyQuestionCardProps> = ({
   const [answerInput, setAnswerInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasCelebrated, setHasCelebrated] = useState(false);
+  const [partnerAnswerLiked, setPartnerAnswerLiked] = useState(false);
+  const { triggerFloatingReaction } = useFloatingReactions();
 
   const me = coupleState[currentPartner];
   const partnerId: PartnerId = currentPartner === 'partner1' ? 'partner2' : 'partner1';
@@ -33,23 +38,33 @@ export const DailyQuestionCard: React.FC<DailyQuestionCardProps> = ({
   const partnerAnswer = answers?.[partnerId];
   const bothAnswered = Boolean(myAnswer && partnerAnswer);
 
-  // Trigger confetti when both answers are unlocked
+  const envelopeStatus: 'locked' | 'waiting' | 'revealed' = bothAnswered
+    ? 'revealed'
+    : myAnswer
+    ? 'waiting'
+    : 'locked';
+
+  // Trigger confetti and celebration haptic when both answers are unlocked
   useEffect(() => {
     if (bothAnswered && !hasCelebrated) {
+      haptic.celebration();
       confetti({
-        particleCount: 80,
-        spread: 70,
+        particleCount: 90,
+        spread: 75,
         origin: { y: 0.6 },
-        colors: ['#f43f5e', '#fb7185', '#fda4af', '#fecdd3', '#ffe4e6'],
+        colors: ['#f43f5e', '#fb7185', '#fda4af', '#fecdd3', '#ffe4e6', '#fbbf24'],
       });
+      triggerFloatingReaction('🎉', 6);
+      triggerFloatingReaction('💕', 10);
       setHasCelebrated(true);
     }
-  }, [bothAnswered, hasCelebrated]);
+  }, [bothAnswered, hasCelebrated, triggerFloatingReaction]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!answerInput.trim() || isSubmitting) return;
 
+    haptic.heartbeat();
     setIsSubmitting(true);
     try {
       const res = await fetch('/api/answer', {
@@ -65,6 +80,7 @@ export const DailyQuestionCard: React.FC<DailyQuestionCardProps> = ({
       if (res.ok) {
         const updated = await res.json();
         setAnswerInput('');
+        triggerFloatingReaction('💌', 5);
         onAnswerSubmitted(updated);
       }
     } catch (err) {
@@ -72,6 +88,13 @@ export const DailyQuestionCard: React.FC<DailyQuestionCardProps> = ({
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleLikePartnerAnswer = () => {
+    haptic.loveReaction();
+    setPartnerAnswerLiked(!partnerAnswerLiked);
+    triggerFloatingReaction('❤️', 8);
+    triggerFloatingReaction('🥰', 4);
   };
 
   const getCategoryColor = (cat: string = 'romantic') => {
@@ -92,7 +115,12 @@ export const DailyQuestionCard: React.FC<DailyQuestionCardProps> = ({
   };
 
   return (
-    <div className="glass-card rounded-3xl p-5 my-2 text-rose-950 shadow-md border border-rose-100 relative">
+    <div className="glass-card rounded-3xl p-5 my-2 text-rose-950 shadow-md border border-rose-100 relative overflow-hidden">
+      {/* Decorative Envelope Header */}
+      <div className="mb-2">
+        <LoveEnvelope status={envelopeStatus} />
+      </div>
+
       {/* Category & Status */}
       <div className="flex items-center justify-between mb-3">
         <span
@@ -100,16 +128,16 @@ export const DailyQuestionCard: React.FC<DailyQuestionCardProps> = ({
             question?.category
           )}`}
         >
-          {question?.category || 'ROMANTIC'} • TODAY'S PROMPT
+          {question?.category || 'ROMANTIC'} • TODAY&apos;S PROMPT
         </span>
 
         {bothAnswered ? (
-          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full shadow-2xs">
             <Unlock className="w-3 h-3" />
-            Both Answered!
+            Both Unlocked!
           </span>
         ) : (
-          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-rose-500 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded-full">
+          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-rose-500 bg-rose-50 border border-rose-100 px-2.5 py-0.5 rounded-full shadow-2xs">
             <Lock className="w-3 h-3" />
             Blind Reveal Mode
           </span>
@@ -118,7 +146,7 @@ export const DailyQuestionCard: React.FC<DailyQuestionCardProps> = ({
 
       {/* Question Headline */}
       <h2 className="text-lg font-bold text-rose-950 leading-snug tracking-tight mb-4">
-        {question ? question.text : "What made you smile today?"}
+        {question ? question.text : 'What made you smile today?'}
       </h2>
 
       {/* Scenario A: Current user hasn't answered yet */}
@@ -131,8 +159,12 @@ export const DailyQuestionCard: React.FC<DailyQuestionCardProps> = ({
                 onChange={(e) => setAnswerInput(e.target.value)}
                 placeholder={`Type your honest answer, ${me.name}...`}
                 rows={3}
-                className="w-full rounded-2xl bg-white/90 border border-rose-200 p-3 text-sm text-rose-950 placeholder-rose-300 focus:outline-hidden focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition resize-none shadow-inner"
+                maxLength={400}
+                className="w-full rounded-2xl bg-white/90 border border-rose-200 p-3.5 text-sm text-rose-950 placeholder-rose-300 focus:outline-hidden focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition resize-none shadow-inner leading-relaxed"
               />
+              <span className="absolute bottom-2.5 right-3 text-[10px] font-semibold text-rose-300">
+                {answerInput.length}/400
+              </span>
             </div>
             <button
               type="submit"
@@ -140,13 +172,13 @@ export const DailyQuestionCard: React.FC<DailyQuestionCardProps> = ({
               className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-semibold text-sm shadow-md shadow-rose-500/25 active:scale-[0.98] transition disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2"
             >
               <Send className="w-4 h-4" />
-              <span>{isSubmitting ? 'Locking in your answer...' : 'Submit & Reveal Status'}</span>
+              <span>{isSubmitting ? 'Sealing your answer...' : 'Seal & Submit Answer 💌'}</span>
             </button>
           </form>
 
           {/* Locked partner preview */}
           <div className="rounded-2xl border border-dashed border-rose-200/90 bg-rose-50/50 p-4 text-center">
-            <div className="w-8 h-8 rounded-full bg-rose-100 text-rose-500 flex items-center justify-center mx-auto mb-1.5">
+            <div className="w-8 h-8 rounded-full bg-rose-100 text-rose-500 flex items-center justify-center mx-auto mb-1.5 shadow-2xs">
               <Lock className="w-4 h-4" />
             </div>
             <p className="text-xs font-semibold text-rose-800">
@@ -154,7 +186,7 @@ export const DailyQuestionCard: React.FC<DailyQuestionCardProps> = ({
             </p>
             <p className="text-[11px] text-rose-500 mt-0.5">
               {partnerAnswer
-                ? `🔥 ${partner.name} has already submitted! Submit yours to read it.`
+                ? `🔥 ${partner.name} has already submitted! Submit yours to reveal both.`
                 : `Submit your answer to unlock the reveal once ${partner.name} answers.`}
             </p>
           </div>
@@ -165,31 +197,31 @@ export const DailyQuestionCard: React.FC<DailyQuestionCardProps> = ({
       {myAnswer && !partnerAnswer && (
         <div className="space-y-3.5">
           {/* My answer card */}
-          <div className="bg-rose-50/70 border border-rose-200/80 rounded-2xl p-3.5">
+          <div className="bg-rose-50/70 border border-rose-200/80 rounded-2xl p-4 shadow-2xs">
             <div className="flex items-center justify-between text-xs text-rose-600 font-semibold mb-1">
               <span className="flex items-center gap-1.5">
                 <span>{me.avatarEmoji}</span>
                 <span>Your Answer ({me.name})</span>
               </span>
-              <span className="text-[10px] text-rose-400 flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3 text-emerald-500" /> Submitted
+              <span className="text-[10px] text-rose-400 flex items-center gap-1 font-bold">
+                <CheckCircle2 className="w-3 h-3 text-emerald-500" /> Sealed
               </span>
             </div>
-            <p className="text-sm text-rose-900 font-medium whitespace-pre-wrap leading-relaxed">
+            <p className="text-sm text-rose-900 font-medium whitespace-pre-wrap leading-relaxed mt-1">
               &ldquo;{myAnswer.text}&rdquo;
             </p>
           </div>
 
           {/* Waiting for partner card */}
           <div className="rounded-2xl border border-dashed border-amber-300 bg-amber-50/70 p-4 text-center">
-            <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-1.5 animate-pulse">
+            <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-1.5 animate-pulse shadow-2xs">
               <Clock className="w-4 h-4" />
             </div>
             <p className="text-xs font-bold text-amber-900">
-              Waiting for {partner.name} to answer...
+              Waiting for {partner.name} to seal their letter...
             </p>
             <p className="text-[11px] text-amber-700/80 mt-0.5">
-              Their response is locked until they submit. Switch to {partner.name} above to test!
+              Their response will unlock the moment they submit. Switch to {partner.name} above to test!
             </p>
           </div>
         </div>
@@ -199,21 +231,24 @@ export const DailyQuestionCard: React.FC<DailyQuestionCardProps> = ({
       {bothAnswered && (
         <div className="space-y-3">
           <div className="text-center py-1">
-            <span className="text-xs font-bold text-rose-600 bg-rose-100/70 px-3 py-1 rounded-full border border-rose-200 inline-flex items-center gap-1.5">
+            <span className="text-xs font-bold text-rose-600 bg-rose-100/70 px-3.5 py-1 rounded-full border border-rose-200 inline-flex items-center gap-1.5 shadow-2xs">
               <Sparkles className="w-3.5 h-3.5 text-rose-500" />
-              You both shared today!
+              You both shared today! 💕
             </span>
           </div>
 
           {/* Answer 1: Current User */}
-          <div className="bg-white/90 border border-rose-200/80 rounded-2xl p-3.5 shadow-2xs">
+          <div className="bg-white/95 border border-rose-200/80 rounded-2xl p-4 shadow-sm">
             <div className="flex items-center justify-between text-xs text-rose-600 font-semibold mb-1.5">
               <span className="flex items-center gap-1.5">
                 <span>{me.avatarEmoji}</span>
                 <span>{me.name}</span>
               </span>
               <span className="text-[10px] text-rose-400">
-                {new Date(myAnswer!.answeredAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                {new Date(myAnswer!.answeredAt).toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
               </span>
             </div>
             <p className="text-sm text-rose-900 font-medium leading-relaxed">
@@ -221,20 +256,49 @@ export const DailyQuestionCard: React.FC<DailyQuestionCardProps> = ({
             </p>
           </div>
 
-          {/* Answer 2: Partner */}
-          <div className="bg-gradient-to-r from-rose-50 to-pink-50 border border-pink-200/80 rounded-2xl p-3.5 shadow-2xs">
+          {/* Answer 2: Partner (Interactive with Double-Tap to ❤️) */}
+          <div
+            onDoubleClick={handleLikePartnerAnswer}
+            className="bg-gradient-to-r from-rose-50 to-pink-50 border border-pink-200/80 rounded-2xl p-4 shadow-sm relative group cursor-pointer transition-transform active:scale-[0.99]"
+            title="Double-tap or click heart to love this answer!"
+          >
             <div className="flex items-center justify-between text-xs text-pink-700 font-semibold mb-1.5">
               <span className="flex items-center gap-1.5">
                 <span>{partner.avatarEmoji}</span>
                 <span>{partner.name}</span>
               </span>
-              <span className="text-[10px] text-pink-400">
-                {new Date(partnerAnswer!.answeredAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] text-pink-400">
+                  {new Date(partnerAnswer!.answeredAt).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </span>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleLikePartnerAnswer();
+                  }}
+                  className={`p-1.5 rounded-full transition-transform active:scale-125 ${
+                    partnerAnswerLiked
+                      ? 'bg-rose-500 text-white'
+                      : 'bg-white/80 text-rose-400 hover:text-rose-600'
+                  }`}
+                >
+                  <Heart className={`w-3.5 h-3.5 ${partnerAnswerLiked ? 'fill-white' : ''}`} />
+                </button>
+              </div>
             </div>
             <p className="text-sm text-pink-950 font-medium leading-relaxed">
               &ldquo;{partnerAnswer!.text}&rdquo;
             </p>
+
+            {partnerAnswerLiked && (
+              <div className="mt-2 flex items-center gap-1 text-[10px] font-bold text-rose-600 bg-rose-100/60 px-2.5 py-0.5 rounded-full w-fit">
+                <span>❤️ {me.name} loved this</span>
+              </div>
+            )}
           </div>
         </div>
       )}
