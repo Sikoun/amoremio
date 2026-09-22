@@ -64,3 +64,9 @@ export interface WidgyResponse {
   deep_link_url: string;
   updated_at: string;
 }
+
+export interface W12Row {
+  key: string;
+  value?: string;
+  color?: 'main' | 'success' | 'danger' | 'warning';
+}

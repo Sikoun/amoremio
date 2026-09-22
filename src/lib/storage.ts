@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { CoupleData, PartnerId, Question, WidgyResponse, Poke } from './types';
+import { CoupleData, PartnerId, Question, WidgyResponse, Poke, W12Row } from './types';
 import { QUESTION_BANK } from './questionBank';
 import { calculateDaysTogether } from './calculations';
 
@@ -243,4 +243,107 @@ export function getWidgyPayload(forPartnerId: PartnerId, baseUrl: string = ''): 
     deep_link_url: baseUrl ? `${baseUrl}/?partner=${partnerId}` : `/?partner=${partnerId}`,
     updated_at: new Date().toISOString(),
   };
+}
+
+export function getW12Payload(forPartnerId: PartnerId): W12Row[] {
+  const state = getCoupleState();
+  const todayKey = getTodayDateKey();
+  const question = state.dailyQuestions[todayKey];
+  const answers = state.answers[todayKey] || { questionId: question ? question.id : 'q-init', date: todayKey };
+
+  const partnerId = forPartnerId;
+  const otherPartnerId: PartnerId = partnerId === 'partner1' ? 'partner2' : 'partner1';
+
+  const myAnswer = answers[partnerId];
+  const partnerAnswer = answers[otherPartnerId];
+  const partnerUser = state[otherPartnerId];
+  const days = calculateDaysTogether(state.anniversaryDate);
+
+  let partnerBadge = 'Not answered yet';
+  let partnerColor: W12Row['color'] = 'warning';
+
+  if (partnerAnswer && !myAnswer) {
+    partnerBadge = 'Answered! 🔒';
+    partnerColor = 'success';
+  } else if (!partnerAnswer && myAnswer) {
+    partnerBadge = 'Waiting... ⏳';
+    partnerColor = 'warning';
+  } else if (partnerAnswer && myAnswer) {
+    partnerBadge = 'Unlocked! 💕';
+    partnerColor = 'success';
+  }
+
+  const rows: W12Row[] = [];
+
+  // Row 1: Header / Days
+  rows.push({
+    key: '💕 AMORE MIO',
+    value: `${days} Days`,
+    color: 'main',
+  });
+
+  // Row 2: Partner status badge
+  rows.push({
+    key: partnerUser.name.slice(0, 14),
+    value: partnerBadge,
+    color: partnerColor,
+  });
+
+  // Row 3: Partner mood
+  const moodStr = `${partnerUser.moodEmoji || '🥰'} ${partnerUser.mood || 'Missing you'}`.slice(0, 24);
+  rows.push({
+    key: 'Mood',
+    value: moodStr,
+  });
+
+  // Row 4: Spacer
+  rows.push({ key: '' });
+
+  // Row 5: Prompt Category
+  const cat = (question?.category || 'ROMANTIC').slice(0, 12).toUpperCase();
+  rows.push({
+    key: "TODAY'S QUESTION",
+    value: cat,
+    color: 'main',
+  });
+
+  // Word-wrap question into lines of <= 24 characters
+  const qText = question ? question.text : 'What made you smile today?';
+  const words = qText.split(/\s+/);
+  const qLines: string[] = [];
+  let currentLine = '';
+  for (const w of words) {
+    if (!currentLine) {
+      currentLine = w;
+    } else if ((currentLine + ' ' + w).length <= 24) {
+      currentLine += ' ' + w;
+    } else {
+      qLines.push(currentLine);
+      currentLine = w;
+    }
+  }
+  if (currentLine) {
+    qLines.push(currentLine);
+  }
+
+  // Up to 4 question lines (ensures total rows stay within 12)
+  for (const line of qLines.slice(0, 4)) {
+    rows.push({ key: line.slice(0, 24) });
+  }
+
+  // Spacer
+  rows.push({ key: '' });
+
+  // Footer / Status action
+  let footerAction = 'Tap app to answer';
+  if (partnerAnswer && myAnswer) {
+    footerAction = 'Tap to read answers 💕';
+  } else if (partnerAnswer && !myAnswer) {
+    footerAction = 'Answer to reveal! 🔒';
+  }
+  rows.push({
+    key: footerAction.slice(0, 24),
+  });
+
+  return rows.slice(0, 12);
 }
