@@ -10,6 +10,7 @@ interface SettingsModalProps {
   onClose: () => void;
   coupleState: CoupleData;
   onStateUpdated: (newState: CoupleData) => void;
+  onOpenPetStudio?: () => void;
 }
 
 const PET_OPTIONS: { id: PetType; label: string; emoji: string }[] = [
@@ -28,6 +29,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   onClose,
   coupleState,
   onStateUpdated,
+  onOpenPetStudio,
 }) => {
   const [partner1Name, setPartner1Name] = useState(coupleState.partner1.name);
   const [partner2Name, setPartner2Name] = useState(coupleState.partner2.name);
@@ -96,6 +98,34 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-5 overflow-y-auto space-y-4 text-xs">
+          {/* Pet Studio Banner Callout */}
+          {onOpenPetStudio && (
+            <button
+              type="button"
+              onClick={() => {
+                haptic.lightTap();
+                onOpenPetStudio();
+              }}
+              className="w-full p-3 rounded-2xl bg-gradient-to-r from-rose-100 via-pink-100 to-amber-100 border border-rose-300/80 text-rose-800 flex items-center justify-between hover:border-rose-400 transition active:scale-98 shadow-2xs group"
+            >
+              <div className="flex items-center gap-2.5 text-left">
+                <span className="text-2xl p-1 bg-white/80 rounded-xl border border-rose-200 shadow-2xs">
+                  🎨
+                </span>
+                <div>
+                  <p className="font-bold text-xs text-rose-950 flex items-center gap-1">
+                    <span>Pet Studio & Customizer</span>
+                    <span className="text-[10px] bg-rose-500 text-white px-1.5 py-0.2 rounded-full font-extrabold">NEW</span>
+                  </p>
+                  <p className="text-[10px] text-rose-600 font-medium">Equip crowns, shades, bowties & custom colors</p>
+                </div>
+              </div>
+              <span className="text-xs font-bold bg-white text-rose-600 px-3 py-1.5 rounded-xl border border-rose-200 shadow-2xs group-hover:bg-rose-50 transition">
+                Open ✨
+              </span>
+            </button>
+          )}
+
           {/* Partner 1 Info */}
           <div className="space-y-2 bg-rose-50/40 p-3 rounded-2xl border border-rose-100">
             <label className="block text-xs font-bold text-rose-900">

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { CoupleData, PartnerId, Question, Poke, PetType, PET_EMOJIS } from './types';
+import { CoupleData, PartnerId, Question, Poke, PetType, PET_EMOJIS, PetCustomization } from './types';
 import { QUESTION_BANK } from './questionBank';
 import { calculateDaysTogether } from './calculations';
 
@@ -19,6 +19,12 @@ const DEFAULT_STATE: CoupleData = {
     nickname: 'My Sea Lion',
     avatarEmoji: '🦭',
     pet: 'sealion',
+    customPet: {
+      species: 'sealion',
+      colorShade: 'default',
+      headAccessory: 'sprout',
+      neckAccessory: 'heart_locket',
+    },
     mood: 'Thinking of you',
     moodEmoji: '🥰',
     lastActive: new Date().toISOString(),
@@ -29,6 +35,12 @@ const DEFAULT_STATE: CoupleData = {
     nickname: 'My Lion',
     avatarEmoji: '🦁',
     pet: 'lion',
+    customPet: {
+      species: 'lion',
+      colorShade: 'default',
+      headAccessory: 'crown',
+      neckAccessory: 'bowtie',
+    },
     mood: 'Missing you',
     moodEmoji: '🥺',
     lastActive: new Date().toISOString(),
@@ -62,7 +74,30 @@ function ensureDataFile(): CoupleData {
 
     const raw = fs.readFileSync(DATA_FILE, 'utf-8');
     const parsed = JSON.parse(raw);
-    memoryState = { ...DEFAULT_STATE, ...parsed };
+    memoryState = {
+      ...DEFAULT_STATE,
+      ...parsed,
+      partner1: {
+        ...DEFAULT_STATE.partner1,
+        ...(parsed.partner1 || {}),
+        customPet: parsed.partner1?.customPet || {
+          species: parsed.partner1?.pet || 'sealion',
+          colorShade: 'default',
+          headAccessory: 'sprout',
+          neckAccessory: 'heart_locket',
+        },
+      },
+      partner2: {
+        ...DEFAULT_STATE.partner2,
+        ...(parsed.partner2 || {}),
+        customPet: parsed.partner2?.customPet || {
+          species: parsed.partner2?.pet || 'lion',
+          colorShade: 'default',
+          headAccessory: 'crown',
+          neckAccessory: 'bowtie',
+        },
+      },
+    };
     return memoryState;
   } catch (error) {
     console.warn('Filesystem access warning (using in-memory state):', error);
@@ -184,19 +219,41 @@ export function updateSettings(
   partner2Name?: string,
   anniversaryDate?: string,
   partner1Pet?: PetType,
-  partner2Pet?: PetType
+  partner2Pet?: PetType,
+  partner1CustomPet?: PetCustomization,
+  partner2CustomPet?: PetCustomization
 ): CoupleData {
   const state = getCoupleState();
   if (partner1Name) state.partner1.name = partner1Name.trim();
   if (partner2Name) state.partner2.name = partner2Name.trim();
   if (anniversaryDate) state.anniversaryDate = anniversaryDate.trim();
-  if (partner1Pet && PET_EMOJIS[partner1Pet]) {
+
+  if (partner1CustomPet) {
+    state.partner1.customPet = partner1CustomPet;
+    state.partner1.pet = partner1CustomPet.species;
+    if (PET_EMOJIS[partner1CustomPet.species]) {
+      state.partner1.avatarEmoji = PET_EMOJIS[partner1CustomPet.species];
+    }
+  } else if (partner1Pet && PET_EMOJIS[partner1Pet]) {
     state.partner1.pet = partner1Pet;
     state.partner1.avatarEmoji = PET_EMOJIS[partner1Pet];
+    if (state.partner1.customPet) {
+      state.partner1.customPet.species = partner1Pet;
+    }
   }
-  if (partner2Pet && PET_EMOJIS[partner2Pet]) {
+
+  if (partner2CustomPet) {
+    state.partner2.customPet = partner2CustomPet;
+    state.partner2.pet = partner2CustomPet.species;
+    if (PET_EMOJIS[partner2CustomPet.species]) {
+      state.partner2.avatarEmoji = PET_EMOJIS[partner2CustomPet.species];
+    }
+  } else if (partner2Pet && PET_EMOJIS[partner2Pet]) {
     state.partner2.pet = partner2Pet;
     state.partner2.avatarEmoji = PET_EMOJIS[partner2Pet];
+    if (state.partner2.customPet) {
+      state.partner2.customPet.species = partner2Pet;
+    }
   }
 
   saveState(state);

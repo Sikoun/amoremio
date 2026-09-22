@@ -10,6 +10,7 @@ interface HeaderProps {
   coupleState: CoupleData;
   onOpenHistory: () => void;
   onOpenSettings: () => void;
+  onOpenPetStudio?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -18,6 +19,7 @@ export const Header: React.FC<HeaderProps> = ({
   coupleState,
   onOpenHistory,
   onOpenSettings,
+  onOpenPetStudio,
 }) => {
   const me = coupleState[currentPartner];
   const partnerId: PartnerId = currentPartner === 'partner1' ? 'partner2' : 'partner1';
@@ -62,6 +64,16 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Action icons */}
         <div className="flex items-center gap-1.5">
+          {onOpenPetStudio && (
+            <button
+              onClick={onOpenPetStudio}
+              aria-label="Pet Studio"
+              title="Style Spirit Pets"
+              className="w-9 h-9 rounded-xl bg-white border border-rose-100 text-rose-600 flex items-center justify-center hover:bg-rose-50 transition active:scale-95 shadow-xs"
+            >
+              <Sparkles className="w-4 h-4 fill-rose-100" />
+            </button>
+          )}
           <button
             onClick={onOpenHistory}
             aria-label="Memories History"

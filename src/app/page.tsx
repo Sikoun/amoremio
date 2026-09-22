@@ -9,6 +9,7 @@ import { DailyQuestionCard } from '@/components/DailyQuestionCard';
 import { MoodAndPokeCard } from '@/components/MoodAndPokeCard';
 import { SettingsModal } from '@/components/SettingsModal';
 import { HistoryModal } from '@/components/HistoryModal';
+import { PetStudioModal } from '@/components/PetStudioModal';
 import { ReactionProvider } from '@/components/graphics/FloatingReactions';
 import { CoupleMascot } from '@/components/graphics/CoupleMascot';
 import { Heart, Sparkles, RefreshCw } from 'lucide-react';
@@ -22,6 +23,7 @@ function AmoreMioContent() {
   // Modals
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+  const [isPetStudioOpen, setIsPetStudioOpen] = useState(false);
 
   // Initialize partner from query params or localStorage
   useEffect(() => {
@@ -109,6 +111,7 @@ function AmoreMioContent() {
           coupleState={coupleState}
           onOpenHistory={() => setIsHistoryModalOpen(true)}
           onOpenSettings={() => setIsSettingsModalOpen(true)}
+          onOpenPetStudio={() => setIsPetStudioOpen(true)}
         />
 
         {/* Hero Mascot: Customizable Couple Pets */}
@@ -118,6 +121,9 @@ function AmoreMioContent() {
             partner2Name={coupleState.partner2.name}
             partner1Pet={coupleState.partner1.pet || 'sealion'}
             partner2Pet={coupleState.partner2.pet || 'lion'}
+            partner1CustomPet={coupleState.partner1.customPet}
+            partner2CustomPet={coupleState.partner2.customPet}
+            onOpenStudio={() => setIsPetStudioOpen(true)}
           />
         </div>
 
@@ -162,11 +168,23 @@ function AmoreMioContent() {
         />
 
         {/* Modals */}
+        <PetStudioModal
+          isOpen={isPetStudioOpen}
+          onClose={() => setIsPetStudioOpen(false)}
+          coupleState={coupleState}
+          initialPartner={currentPartner}
+          onStateUpdated={(newState) => setCoupleState(newState)}
+        />
+
         <SettingsModal
           isOpen={isSettingsModalOpen}
           onClose={() => setIsSettingsModalOpen(false)}
           coupleState={coupleState}
           onStateUpdated={(newState) => setCoupleState(newState)}
+          onOpenPetStudio={() => {
+            setIsSettingsModalOpen(false);
+            setIsPetStudioOpen(true);
+          }}
         />
 
         <HistoryModal
