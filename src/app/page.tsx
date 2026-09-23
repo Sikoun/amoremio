@@ -10,6 +10,7 @@ import { MoodAndPokeCard } from '@/components/MoodAndPokeCard';
 import { SettingsModal } from '@/components/SettingsModal';
 import { HistoryModal } from '@/components/HistoryModal';
 import { PetStudioModal } from '@/components/PetStudioModal';
+import { InstallGuideModal } from '@/components/InstallGuideModal';
 import { ReactionProvider } from '@/components/graphics/FloatingReactions';
 import { CoupleMascot } from '@/components/graphics/CoupleMascot';
 import { Heart, Sparkles, RefreshCw } from 'lucide-react';
@@ -24,6 +25,8 @@ function AmoreMioContent() {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [isPetStudioOpen, setIsPetStudioOpen] = useState(false);
+  const [isInstallModalOpen, setIsInstallModalOpen] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(true); // default true to avoid flash
 
   // Initialize partner from query params or localStorage
   useEffect(() => {
@@ -59,6 +62,14 @@ function AmoreMioContent() {
   useEffect(() => {
     fetchState();
 
+    // Check standalone mode on mount
+    if (typeof window !== 'undefined') {
+      const isApp =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        (navigator as any).standalone === true;
+      setIsStandalone(isApp);
+    }
+
     // Register service worker for Android PWA WebAPK installability
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js').catch((err) => {
@@ -77,11 +88,15 @@ function AmoreMioContent() {
   }, []);
 
   const handleInstallApp = async () => {
-    if (!installPrompt) return;
+    if (!installPrompt) {
+      setIsInstallModalOpen(true);
+      return;
+    }
     installPrompt.prompt();
     const { outcome } = await installPrompt.userChoice;
     if (outcome === 'accepted') {
       setInstallPrompt(null);
+      setIsStandalone(true);
     }
   };
 
@@ -127,21 +142,27 @@ function AmoreMioContent() {
           />
         </div>
 
-        {/* PWA 1-Tap Install Banner (when installable) */}
-        {installPrompt && (
+        {/* PWA Smart Install Banner (visible on mobile web when not installed) */}
+        {!isStandalone && (
           <div className="my-2 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-2xl p-3 flex items-center justify-between shadow-md animate-in slide-in-from-top-2 duration-300">
             <div className="flex items-center gap-2.5">
               <span className="text-2xl">📱</span>
               <div>
                 <p className="text-xs font-bold leading-tight">Install Amore Mio</p>
-                <p className="text-[10px] text-rose-100">Standalone full screen, no browser bar!</p>
+                <p className="text-[10px] text-rose-100">Add to Home Screen for fullscreen & love pings!</p>
               </div>
             </div>
             <button
-              onClick={handleInstallApp}
+              onClick={() => {
+                if (installPrompt) {
+                  handleInstallApp();
+                } else {
+                  setIsInstallModalOpen(true);
+                }
+              }}
               className="bg-white hover:bg-rose-50 text-rose-600 font-bold text-xs px-3.5 py-1.5 rounded-xl shadow-xs active:scale-95 transition"
             >
-              Install
+              {installPrompt ? 'Install' : 'How to Add'}
             </button>
           </div>
         )}
@@ -185,12 +206,23 @@ function AmoreMioContent() {
             setIsSettingsModalOpen(false);
             setIsPetStudioOpen(true);
           }}
+          onOpenInstallGuide={() => {
+            setIsSettingsModalOpen(false);
+            setIsInstallModalOpen(true);
+          }}
         />
 
         <HistoryModal
           isOpen={isHistoryModalOpen}
           onClose={() => setIsHistoryModalOpen(false)}
           coupleState={coupleState}
+        />
+
+        <InstallGuideModal
+          isOpen={isInstallModalOpen}
+          onClose={() => setIsInstallModalOpen(false)}
+          deferredPrompt={installPrompt}
+          onInstalled={() => setIsStandalone(true)}
         />
       </div>
     </ReactionProvider>

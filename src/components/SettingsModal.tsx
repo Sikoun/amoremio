@@ -11,6 +11,7 @@ interface SettingsModalProps {
   coupleState: CoupleData;
   onStateUpdated: (newState: CoupleData) => void;
   onOpenPetStudio?: () => void;
+  onOpenInstallGuide?: () => void;
 }
 
 const PET_OPTIONS: { id: PetType; label: string; emoji: string }[] = [
@@ -30,6 +31,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   coupleState,
   onStateUpdated,
   onOpenPetStudio,
+  onOpenInstallGuide,
 }) => {
   const [partner1Name, setPartner1Name] = useState(coupleState.partner1.name);
   const [partner2Name, setPartner2Name] = useState(coupleState.partner2.name);
@@ -230,6 +232,23 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               Used to calculate &ldquo;Days Together&rdquo; for your couple milestones.
             </p>
           </div>
+
+          {/* Install App on Phone Shortcut */}
+          {onOpenInstallGuide && (
+            <div className="pt-2 border-t border-rose-100">
+              <button
+                type="button"
+                onClick={() => {
+                  haptic.lightTap();
+                  onOpenInstallGuide();
+                }}
+                className="w-full py-2.5 px-3 rounded-xl border border-rose-200 bg-rose-50/60 hover:bg-rose-100 text-rose-800 font-semibold text-xs transition flex items-center justify-center gap-2"
+              >
+                <span>📱</span>
+                <span>Install Guide (iPhone & Android)</span>
+              </button>
+            </div>
+          )}
 
           {successNotice && (
             <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 p-2.5 rounded-xl text-center text-xs font-semibold flex items-center justify-center gap-1.5 shadow-2xs">
