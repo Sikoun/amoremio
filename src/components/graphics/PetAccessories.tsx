@@ -53,7 +53,7 @@ const ANIMAL_PROFILES: Record<PetType, AnimalProfile> = {
   },
   lion: {
     headX: 0,
-    headY: 48,
+    headY: 54,
     headScale: 1.15,
     headAngle: 0,
     eyeX: 0,
@@ -85,7 +85,7 @@ const ANIMAL_PROFILES: Record<PetType, AnimalProfile> = {
   },
   bunny: {
     headX: 0,
-    headY: 48,
+    headY: 49,
     headScale: 0.92,
     headAngle: 0,
     eyeX: 0,
@@ -101,7 +101,7 @@ const ANIMAL_PROFILES: Record<PetType, AnimalProfile> = {
   },
   cat: {
     headX: 0,
-    headY: 48,
+    headY: 49,
     headScale: 0.96,
     headAngle: 0,
     eyeX: 0,
@@ -117,12 +117,12 @@ const ANIMAL_PROFILES: Record<PetType, AnimalProfile> = {
   },
   fox: {
     headX: 0,
-    headY: 48,
+    headY: 53,
     headScale: 0.96,
     headAngle: 0,
     eyeX: 0,
     eyeY: 74,
-    eyeSpacing: 18,
+    eyeSpacing: 19,
     eyeScale: 1.0,
     eyeAngle: 0,
     neckX: 0,
