@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing partnerId or mood' }, { status: 400 });
     }
 
-    const updated = updateMood(partnerId as PartnerId, mood, moodEmoji || '🥰');
+    const updated = await updateMood(partnerId as PartnerId, mood, moodEmoji || '🥰');
     return NextResponse.json(updated);
   } catch (error) {
     console.error('Error updating mood:', error);

@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     }
 
     const targetDate = date || getTodayDateKey();
-    const updated = submitAnswer(partnerId as PartnerId, targetDate, answerText);
+    const updated = await submitAnswer(partnerId as PartnerId, targetDate, answerText);
     return NextResponse.json(updated);
   } catch (error) {
     console.error('Error submitting answer:', error);

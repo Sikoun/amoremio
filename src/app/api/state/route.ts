@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const state = getCoupleState();
+    const state = await getCoupleState();
     return NextResponse.json(state, {
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
       partner1CustomPet,
       partner2CustomPet,
     } = body;
-    const updated = updateSettings(
+    const updated = await updateSettings(
       partner1Name,
       partner2Name,
       anniversaryDate,

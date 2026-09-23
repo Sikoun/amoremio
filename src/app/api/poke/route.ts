@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing fromPartnerId' }, { status: 400 });
     }
 
-    const updated = sendPoke(
+    const updated = await sendPoke(
       fromPartnerId as PartnerId,
       emoji || '💖',
       message || 'Sent you love!'
