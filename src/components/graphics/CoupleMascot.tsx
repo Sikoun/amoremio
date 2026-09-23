@@ -311,45 +311,18 @@ export const AnimalFigure: React.FC<AnimalFigureProps> = ({
             strokeWidth="0.7"
           />
 
-          {/* Regal Almond Feline Eyes */}
-          {/* Left Eye */}
+          {/* Expressive Warm Lion Eyes - Clean & Iconic (Less is more) */}
           <path
-            d={`M ${cx - 14} ${cy - 2} C ${cx - 12} ${cy - 7} ${cx - 6} ${cy - 7} ${cx - 4} ${cy - 2}`}
+            d={`M ${cx - 13} ${cy - 4} Q ${cx - 8.5} ${cy - 9.5} ${cx - 4} ${cy - 4}`}
             stroke="#451a03"
-            strokeWidth="2.4"
+            strokeWidth="2.6"
             strokeLinecap="round"
             fill="none"
           />
-          <ellipse cx={cx - 9} cy={cy - 2} rx="3.4" ry="4.2" fill="#b45309" />
-          <ellipse cx={cx - 9} cy={cy - 1.8} rx="2.5" ry="3.2" fill="#291809" />
-          <circle cx={cx - 10.2} cy={cy - 3.4} r="1.3" fill="#ffffff" />
-          <circle cx={cx - 7.8} cy={cy - 0.8} r="0.7" fill="#ffffff" />
-          {/* Left Eyebrow */}
           <path
-            d={`M ${cx - 13} ${cy - 8} Q ${cx - 9} ${cy - 11} ${cx - 5} ${cy - 8.5}`}
-            stroke={palette.accent}
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            fill="none"
-          />
-
-          {/* Right Eye */}
-          <path
-            d={`M ${cx + 4} ${cy - 2} C ${cx + 6} ${cy - 7} ${cx + 12} ${cy - 7} ${cx + 14} ${cy - 2}`}
+            d={`M ${cx + 4} ${cy - 4} Q ${cx + 8.5} ${cy - 9.5} ${cx + 13} ${cy - 4}`}
             stroke="#451a03"
-            strokeWidth="2.4"
-            strokeLinecap="round"
-            fill="none"
-          />
-          <ellipse cx={cx + 9} cy={cy - 2} rx="3.4" ry="4.2" fill="#b45309" />
-          <ellipse cx={cx + 9} cy={cy - 1.8} rx="2.5" ry="3.2" fill="#291809" />
-          <circle cx={cx + 7.8} cy={cy - 3.4} r="1.3" fill="#ffffff" />
-          <circle cx={cx + 10.2} cy={cy - 0.8} r="0.7" fill="#ffffff" />
-          {/* Right Eyebrow */}
-          <path
-            d={`M ${cx + 5} ${cy - 8.5} Q ${cx + 9} ${cy - 11} ${cx + 13} ${cy - 8}`}
-            stroke={palette.accent}
-            strokeWidth="1.5"
+            strokeWidth="2.6"
             strokeLinecap="round"
             fill="none"
           />
