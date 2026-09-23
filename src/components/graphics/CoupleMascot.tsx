@@ -750,78 +750,79 @@ export const AnimalFigure: React.FC<AnimalFigureProps> = ({
             fill={palette.secondary}
           />
 
-          {/* Fox Body */}
-          <ellipse cx={cx} cy={bodyY} rx="24" ry="23" fill={palette.primary} />
-          {/* Lush White Chest Bib with Fluffy Scalloped Tuft */}
+          {/* Sleek Fox Body */}
+          <ellipse cx={cx} cy={bodyY} rx="23" ry="22" fill={palette.primary} />
+          {/* Sleek Tapered White Chest Bib */}
           <path
-            d={`M ${cx - 13} ${bodyY - 12} Q ${cx} ${bodyY - 4} ${cx + 13} ${bodyY - 12} L ${cx + 11} ${bodyY + 12} Q ${cx} ${bodyY + 18} ${cx - 11} ${bodyY + 12} Z`}
-            fill={palette.secondary}
-          />
-          <path
-            d={`M ${cx} ${bodyY - 2} L ${cx - 4} ${bodyY + 6} L ${cx} ${bodyY + 12} L ${cx + 4} ${bodyY + 6} Z`}
+            d={`M ${cx - 12} ${bodyY - 12} Q ${cx} ${bodyY - 4} ${cx + 12} ${bodyY - 12} L ${cx + 9} ${bodyY + 13} Q ${cx} ${bodyY + 18} ${cx - 9} ${bodyY + 13} Z`}
             fill="#ffffff"
+            opacity="0.95"
           />
 
-          {/* Large Alert Fox Ears with Black Backs and Fluffy White Inner Tuft */}
+          {/* Large Alert Triangular Fox Ears */}
           {/* Left Ear */}
-          <polygon points={`${cx - 24},${cy - 2} ${cx - 15},${cy - 33} ${cx - 3},${cy - 14}`} fill="#18181b" />
-          <polygon points={`${cx - 22},${cy - 4} ${cx - 15},${cy - 30} ${cx - 5},${cy - 14}`} fill={palette.primary} />
-          <polygon points={`${cx - 19},${cy - 8} ${cx - 15},${cy - 25} ${cx - 7},${cy - 14}`} fill="#ffffff" />
+          <polygon points={`${cx - 23},${cy - 3} ${cx - 15},${cy - 33} ${cx - 3},${cy - 13}`} fill="#18181b" />
+          <polygon points={`${cx - 21},${cy - 5} ${cx - 15},${cy - 30} ${cx - 5},${cy - 13}`} fill={palette.primary} />
+          <polygon points={`${cx - 18},${cy - 8} ${cx - 15},${cy - 25} ${cx - 7},${cy - 13}`} fill="#ffffff" />
 
           {/* Right Ear */}
-          <polygon points={`${cx + 24},${cy - 2} ${cx + 15},${cy - 33} ${cx + 3},${cy - 14}`} fill="#18181b" />
-          <polygon points={`${cx + 22},${cy - 4} ${cx + 15},${cy - 30} ${cx + 5},${cy - 14}`} fill={palette.primary} />
-          <polygon points={`${cx + 19},${cy - 8} ${cx + 15},${cy - 25} ${cx + 7},${cy - 14}`} fill="#ffffff" />
+          <polygon points={`${cx + 23},${cy - 3} ${cx + 15},${cy - 33} ${cx + 3},${cy - 13}`} fill="#18181b" />
+          <polygon points={`${cx + 21},${cy - 5} ${cx + 15},${cy - 30} ${cx + 5},${cy - 13}`} fill={palette.primary} />
+          <polygon points={`${cx + 18},${cy - 8} ${cx + 15},${cy - 25} ${cx + 7},${cy - 13}`} fill="#ffffff" />
 
-          {/* Fox Head Silhouette with Flared Cheek Tufts */}
+          {/* Sleek Agile Fox Head - Classic Inverted Triangle / Diamond Silhouette */}
           <path
-            d={`M ${cx - 22} ${cy + 6} L ${cx - 28} ${cy + 10} L ${cx - 22} ${cy + 13} L ${cx - 25} ${cy + 17} L ${cx - 15} ${cy + 22} Q ${cx} ${cy + 25} ${cx + 15} ${cy + 22} L ${cx + 25} ${cy + 17} L ${cx + 22} ${cy + 13} L ${cx + 28} ${cy + 10} L ${cx + 22} ${cy + 6} C ${cx + 26} ${cy - 10} ${cx + 16} ${cy - 25} ${cx} ${cy - 25} C ${cx - 16} ${cy - 25} ${cx - 26} ${cy - 10} ${cx - 22} ${cy + 6} Z`}
+            d={`M ${cx - 27} ${cy + 3} 
+                L ${cx - 22} ${cy + 7} 
+                L ${cx - 25} ${cy + 11} 
+                L ${cx} ${cy + 23} 
+                L ${cx + 25} ${cy + 11} 
+                L ${cx + 22} ${cy + 7} 
+                L ${cx + 27} ${cy + 3} 
+                C ${cx + 24} ${cy - 8} ${cx + 15} ${cy - 23} ${cx} ${cy - 23} 
+                C ${cx - 15} ${cy - 23} ${cx - 24} ${cy - 8} ${cx - 27} ${cy + 3} Z`}
             fill={palette.primary}
           />
 
-          {/* Clean Storybook White Face Mask */}
+          {/* Crisp White Cheek & Muzzle Mask - Accentuates the Sleek V-Taper */}
           <path
-            d={`M ${cx - 21} ${cy + 5} 
-                Q ${cx - 10} ${cy + 8} ${cx} ${cy + 8} 
-                Q ${cx + 10} ${cy + 8} ${cx + 21} ${cy + 5} 
-                L ${cx + 25} ${cy + 17} 
-                Q ${cx} ${cy + 24} ${cx - 25} ${cy + 17} Z`}
-            fill={palette.secondary}
-          />
-          <path
-            d={`M ${cx - 14} ${cy + 7} Q ${cx} ${cy + 13} ${cx + 14} ${cy + 7} L ${cx} ${cy + 22} Z`}
+            d={`M ${cx - 24} ${cy + 3} 
+                Q ${cx - 10} ${cy + 7} ${cx} ${cy + 8} 
+                Q ${cx + 10} ${cy + 7} ${cx + 24} ${cy + 3} 
+                L ${cx + 25} ${cy + 11} 
+                L ${cx} ${cy + 23} 
+                L ${cx - 25} ${cy + 11} Z`}
             fill="#ffffff"
-            opacity="0.9"
           />
 
-          {/* Refined Crisp Black Fox Nose */}
+          {/* Sleek Crisp Black Fox Nose */}
           <path
-            d={`M ${cx} ${cy + 13} L ${cx - 3.2} ${cy + 9.5} C ${cx - 2.5} ${cy + 8.8} ${cx + 2.5} ${cy + 8.8} ${cx + 3.2} ${cy + 9.5} Z`}
+            d={`M ${cx} ${cy + 12.5} L ${cx - 3} ${cy + 9.5} C ${cx - 2.2} ${cy + 8.8} ${cx + 2.2} ${cy + 8.8} ${cx + 3} ${cy + 9.5} Z`}
             fill="#18181b"
           />
-          <circle cx={cx - 1} cy={cy + 9.8} r="0.6" fill="#ffffff" opacity="0.6" />
+          <circle cx={cx - 0.9} cy={cy + 9.8} r="0.6" fill="#ffffff" opacity="0.6" />
 
           {/* Clever Sly Fox Smirk */}
-          <line x1={cx} y1={cy + 13} x2={cx} y2={cy + 15} stroke="#18181b" strokeWidth="1.3" strokeLinecap="round" />
+          <line x1={cx} y1={cy + 12.5} x2={cx} y2={cy + 14.5} stroke="#18181b" strokeWidth="1.2" strokeLinecap="round" />
           <path
-            d={`M ${cx - 4.5} ${cy + 14.5} Q ${cx} ${cy + 16.5} ${cx + 5} ${cy + 14.2} Q ${cx + 7.5} ${cy + 12.8} ${cx + 8.5} ${cy + 13.8}`}
+            d={`M ${cx - 4} ${cy + 14} Q ${cx} ${cy + 15.8} ${cx + 4.5} ${cy + 13.8} Q ${cx + 7} ${cy + 12.5} ${cx + 8} ${cy + 13.5}`}
             stroke="#18181b"
             strokeWidth="1.4"
             strokeLinecap="round"
             fill="none"
           />
 
-          {/* Charismatic Squinting Sly Eyes (Storybook Fox Inspiration) */}
+          {/* Charismatic Squinting Sly Eyes (Classic Storybook Illustration) */}
           {/* Left Sly Eye */}
           <path
-            d={`M ${cx - 16} ${cy - 1} Q ${cx - 10} ${cy - 6.5} ${cx - 4} ${cy - 2}`}
+            d={`M ${cx - 15} ${cy - 1} Q ${cx - 9.5} ${cy - 6.5} ${cx - 4} ${cy - 2}`}
             stroke="#18181b"
-            strokeWidth="2.6"
+            strokeWidth="2.5"
             strokeLinecap="round"
             fill="none"
           />
           <path
-            d={`M ${cx - 16} ${cy - 1} L ${cx - 19} ${cy - 3}`}
+            d={`M ${cx - 15} ${cy - 1} L ${cx - 18} ${cy - 3}`}
             stroke="#18181b"
             strokeWidth="2"
             strokeLinecap="round"
@@ -829,26 +830,26 @@ export const AnimalFigure: React.FC<AnimalFigureProps> = ({
 
           {/* Right Sly Eye */}
           <path
-            d={`M ${cx + 4} ${cy - 2} Q ${cx + 10} ${cy - 6.5} ${cx + 16} ${cy - 1}`}
+            d={`M ${cx + 4} ${cy - 2} Q ${cx + 9.5} ${cy - 6.5} ${cx + 15} ${cy - 1}`}
             stroke="#18181b"
-            strokeWidth="2.6"
+            strokeWidth="2.5"
             strokeLinecap="round"
             fill="none"
           />
           <path
-            d={`M ${cx + 16} ${cy - 1} L ${cx + 19} ${cy - 3}`}
+            d={`M ${cx + 15} ${cy - 1} L ${cx + 18} ${cy - 3}`}
             stroke="#18181b"
             strokeWidth="2"
             strokeLinecap="round"
           />
 
           {/* Rosy Sly Cheeks */}
-          <ellipse cx={cx - 15} cy={cy + 5} rx="4.2" ry="2.6" fill="#fda4af" opacity="0.8" />
-          <ellipse cx={cx + 15} cy={cy + 5} rx="4.2" ry="2.6" fill="#fda4af" opacity="0.8" />
+          <ellipse cx={cx - 14} cy={cy + 4} rx="3.8" ry="2.2" fill="#fda4af" opacity="0.75" />
+          <ellipse cx={cx + 14} cy={cy + 4} rx="3.8" ry="2.2" fill="#fda4af" opacity="0.75" />
 
           {/* Sleek Black Fox Paws / Socks */}
-          <ellipse cx={cx - 9} cy="118" rx="6.5" ry="5" fill="#18181b" />
-          <ellipse cx={cx + 9} cy="118" rx="6.5" ry="5" fill="#18181b" />
+          <ellipse cx={cx - 9} cy="118" rx="6" ry="4.5" fill="#18181b" />
+          <ellipse cx={cx + 9} cy="118" rx="6" ry="4.5" fill="#18181b" />
         </g>
       )}
 
