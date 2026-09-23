@@ -299,140 +299,213 @@ export const AnimalFigure: React.FC<AnimalFigureProps> = ({
       )}
 
       {pet === 'cat' && (
-        <g id={`${prefix}-cat`}>
-          {/* Tail */}
+        <g id={`${prefix}-cat`} className="transition-transform duration-300">
+          {/* Expressive Swishing Tail with rings */}
           <path
-            d={`M ${cx - 24 * flip} 112 Q ${cx - 40 * flip} 115 ${cx - 38 * flip} 90 Q ${cx - 36 * flip} 76 ${cx - 26 * flip} 80`}
+            d={`M ${cx - 24 * flip} 112 Q ${cx - 42 * flip} 118 ${cx - 40 * flip} 88 Q ${cx - 38 * flip} 68 ${cx - 26 * flip} 72`}
             stroke={palette.primary}
-            strokeWidth="4.5"
+            strokeWidth="5.5"
+            strokeLinecap="round"
+            fill="none"
+          />
+          <path
+            d={`M ${cx - 35 * flip} 73 Q ${cx - 38 * flip} 68 ${cx - 26 * flip} 72`}
+            stroke={palette.secondary}
+            strokeWidth="5.5"
             strokeLinecap="round"
             fill="none"
           />
 
-          {/* Ears */}
-          <polygon points={`${cx - 22},${cy - 8} ${cx - 12},${cy - 28} ${cx - 2},${cy - 14}`} fill={palette.primary} />
-          <polygon points={`${cx - 19},${cy - 10} ${cx - 12},${cy - 24} ${cx - 5},${cy - 15}`} fill="#fecdd3" />
-          <polygon points={`${cx + 22},${cy - 8} ${cx + 12},${cy - 28} ${cx + 2},${cy - 14}`} fill={palette.primary} />
-          <polygon points={`${cx + 19},${cy - 10} ${cx + 12},${cy - 24} ${cx + 5},${cy - 15}`} fill="#fecdd3" />
-
-          {/* Body */}
+          {/* Fluffy Kitten Body */}
           <ellipse cx={cx} cy={bodyY} rx="24" ry="23" fill={palette.primary} />
-          <ellipse cx={cx} cy={bodyY + 2} rx="14" ry="14" fill={palette.secondary} />
+          {/* Decisive White Chest Bib */}
+          <ellipse cx={cx} cy={bodyY + 2} rx="15" ry="16" fill={palette.secondary} />
+          <path
+            d={`M ${cx - 8} ${bodyY - 12} Q ${cx} ${bodyY - 6} ${cx + 8} ${bodyY - 12} L ${cx + 12} ${bodyY + 14} Q ${cx} ${bodyY + 18} ${cx - 12} ${bodyY + 14} Z`}
+            fill={palette.secondary}
+            opacity="0.95"
+          />
 
-          {/* Head */}
-          <circle cx={cx} cy={cy} r="26" fill={palette.primary} />
+          {/* Kitten Ears - Curved outer ear with soft fluffy inner ear */}
+          <path
+            d={`M ${cx - 23} ${cy - 5} C ${cx - 24} ${cy - 20} ${cx - 19} ${cy - 30} ${cx - 12} ${cy - 30} C ${cx - 6} ${cy - 30} ${cx - 2} ${cy - 18} ${cx - 2} ${cy - 12} Z`}
+            fill={palette.primary}
+            stroke={palette.accent}
+            strokeWidth="0.8"
+          />
+          {/* Left Inner Ear (Warm pastel pink with fluff) */}
+          <path
+            d={`M ${cx - 19} ${cy - 9} C ${cx - 20} ${cy - 19} ${cx - 16} ${cy - 25} ${cx - 12} ${cy - 25} C ${cx - 8} ${cy - 25} ${cx - 5} ${cy - 17} ${cx - 5} ${cy - 13} Z`}
+            fill="#fecdd3"
+          />
+          <path
+            d={`M ${cx - 18} ${cy - 10} Q ${cx - 12} ${cy - 16} ${cx - 6} ${cy - 12}`}
+            fill="#ffffff"
+            opacity="0.75"
+          />
+
+          {/* Right Ear */}
+          <path
+            d={`M ${cx + 23} ${cy - 5} C ${cx + 24} ${cy - 20} ${cx + 19} ${cy - 30} ${cx + 12} ${cy - 30} C ${cx + 6} ${cy - 30} ${cx + 2} ${cy - 18} ${cx + 2} ${cy - 12} Z`}
+            fill={palette.primary}
+            stroke={palette.accent}
+            strokeWidth="0.8"
+          />
+          {/* Right Inner Ear */}
+          <path
+            d={`M ${cx + 19} ${cy - 9} C ${cx + 20} ${cy - 19} ${cx + 16} ${cy - 25} ${cx + 12} ${cy - 25} C ${cx + 8} ${cy - 25} ${cx + 5} ${cy - 17} ${cx + 5} ${cy - 13} Z`}
+            fill="#fecdd3"
+          />
+          <path
+            d={`M ${cx + 18} ${cy - 10} Q ${cx + 12} ${cy - 16} ${cx + 6} ${cy - 12}`}
+            fill="#ffffff"
+            opacity="0.75"
+          />
+
+          {/* Head - Cute Chubby Cheek Silhouette */}
+          <path
+            d={`M ${cx - 24} ${cy + 10} C ${cx - 28} ${cy + 3} ${cx - 28} ${cy - 12} ${cx - 20} ${cy - 22} C ${cx - 10} ${cy - 28} ${cx + 10} ${cy - 28} ${cx + 20} ${cy - 22} C ${cx + 28} ${cy - 12} ${cx + 28} ${cy + 3} ${cx + 24} ${cy + 10} C ${cx + 18} ${cy + 22} ${cx - 18} ${cy + 22} ${cx - 24} ${cy + 10} Z`}
+            fill={palette.primary}
+          />
+
+          {/* Tabby Forehead Markings (Decisive contrast) */}
+          <path d={`M ${cx} ${cy - 23} L ${cx} ${cy - 15}`} stroke={palette.accent} strokeWidth="1.8" strokeLinecap="round" />
+          <path d={`M ${cx - 6} ${cy - 21} Q ${cx - 5} ${cy - 18} ${cx - 4} ${cy - 16}`} stroke={palette.accent} strokeWidth="1.5" strokeLinecap="round" />
+          <path d={`M ${cx + 6} ${cy - 21} Q ${cx + 5} ${cy - 18} ${cx + 4} ${cy - 16}`} stroke={palette.accent} strokeWidth="1.5" strokeLinecap="round" />
+
+          {/* Puffy White Muzzle (High contrast!) */}
+          <ellipse cx={cx - 5} cy={cy + 7} rx="6.5" ry="5.2" fill={palette.secondary} />
+          <ellipse cx={cx + 5} cy={cy + 7} rx="6.5" ry="5.2" fill={palette.secondary} />
 
           {/* Nose */}
-          <polygon points={`${cx - 3},${cy + 2} ${cx + 3},${cy + 2} ${cx},${cy + 5}`} fill="#be123c" />
+          <polygon points={`${cx - 3.5},${cy + 4} ${cx + 3.5},${cy + 4} ${cx},${cy + 7.5}`} fill="#f43f5e" />
+
+          {/* Kitty Smile */}
           <path
-            d={`M ${cx - 4} ${cy + 7} Q ${cx} ${cy + 10} ${cx + 4} ${cy + 7}`}
+            d={`M ${cx - 5} ${cy + 9} Q ${cx - 2.5} ${cy + 12} ${cx} ${cy + 9.5} Q ${cx + 2.5} ${cy + 12} ${cx + 5} ${cy + 9}`}
             stroke="#7c2d12"
-            strokeWidth="1.6"
+            strokeWidth="1.5"
             strokeLinecap="round"
             fill="none"
           />
 
           {/* Whiskers */}
-          <path
-            d={`M ${cx - 12} ${cy + 4} L ${cx - 22} ${cy + 2} M ${cx - 12} ${cy + 7} L ${cx - 21} ${cy + 9}`}
-            stroke={palette.accent}
-            strokeWidth="1.2"
-            strokeLinecap="round"
-          />
-          <path
-            d={`M ${cx + 12} ${cy + 4} L ${cx + 22} ${cy + 2} M ${cx + 12} ${cy + 7} L ${cx + 21} ${cy + 9}`}
-            stroke={palette.accent}
-            strokeWidth="1.2"
-            strokeLinecap="round"
-          />
+          <path d={`M ${cx - 10} ${cy + 5} L ${cx - 22} ${cy + 3} M ${cx - 10} ${cy + 8} L ${cx - 21} ${cy + 10}`} stroke={palette.accent} strokeWidth="1.3" strokeLinecap="round" />
+          <path d={`M ${cx + 10} ${cy + 5} L ${cx + 22} ${cy + 3} M ${cx + 10} ${cy + 8} L ${cx + 21} ${cy + 10}`} stroke={palette.accent} strokeWidth="1.3" strokeLinecap="round" />
 
-          {/* Eyes */}
-          <path
-            d={`M ${cx - 11} ${cy - 5} Q ${cx - 7} ${cy - 10} ${cx - 3} ${cy - 5}`}
-            stroke="#431407"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            fill="none"
-          />
-          <path
-            d={`M ${cx + 3} ${cy - 5} Q ${cx + 7} ${cy - 10} ${cx + 11} ${cy - 5}`}
-            stroke="#431407"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            fill="none"
-          />
+          {/* Big Sparkling Anime Kitten Eyes */}
+          <ellipse cx={cx - 10} cy={cy - 2} rx="4.5" ry="5.2" fill="#18181b" />
+          <ellipse cx={cx - 10} cy={cy - 1} rx="3.5" ry="3.8" fill={palette.accent} opacity="0.4" />
+          <circle cx={cx - 11.5} cy={cy - 4} r="1.8" fill="#ffffff" />
+          <circle cx={cx - 8.5} cy={cy} r="1" fill="#ffffff" />
 
-          {/* Cheeks */}
-          <ellipse cx={cx - 12} cy={cy + 2} rx="4" ry="3" fill="#fda4af" opacity="0.9" />
-          <ellipse cx={cx + 12} cy={cy + 2} rx="4" ry="3" fill="#fda4af" opacity="0.9" />
+          <ellipse cx={cx + 10} cy={cy - 2} rx="4.5" ry="5.2" fill="#18181b" />
+          <ellipse cx={cx + 10} cy={cy - 1} rx="3.5" ry="3.8" fill={palette.accent} opacity="0.4" />
+          <circle cx={cx + 8.5} cy={cy - 4} r="1.8" fill="#ffffff" />
+          <circle cx={cx + 11.5} cy={cy} r="1" fill="#ffffff" />
 
-          {/* Paws */}
-          <ellipse cx={cx - 9} cy="118" rx="6.5" ry="5" fill={palette.secondary} />
-          <ellipse cx={cx + 9} cy="118" rx="6.5" ry="5" fill={palette.secondary} />
+          {/* Rosy Glowing Cheeks */}
+          <ellipse cx={cx - 16} cy={cy + 5} rx="4.5" ry="3.2" fill="#fda4af" opacity="0.9" />
+          <ellipse cx={cx + 16} cy={cy + 5} rx="4.5" ry="3.2" fill="#fda4af" opacity="0.9" />
+
+          {/* White "Kitten Mittens" Paws */}
+          <ellipse cx={cx - 9} cy="118" rx="6.5" ry="5" fill={palette.secondary} stroke="#fecdd3" strokeWidth="0.8" />
+          <ellipse cx={cx + 9} cy="118" rx="6.5" ry="5" fill={palette.secondary} stroke="#fecdd3" strokeWidth="0.8" />
         </g>
       )}
 
       {pet === 'fox' && (
-        <g id={`${prefix}-fox`}>
-          {/* Big Bushy Tail */}
+        <g id={`${prefix}-fox`} className="transition-transform duration-300">
+          {/* Big Bushy Fox Tail with Jagged White Tip */}
           <path
-            d={`M ${cx - 25 * flip} 115 C ${cx - 50 * flip} 120 ${cx - 55 * flip} 90 ${cx - 40 * flip} 75 C ${cx - 30 * flip} 70 ${cx - 25 * flip} 85 ${cx - 20 * flip} 105 Z`}
+            d={`M ${cx - 25 * flip} 115 C ${cx - 52 * flip} 122 ${cx - 58 * flip} 88 ${cx - 42 * flip} 70 C ${cx - 32 * flip} 65 ${cx - 26 * flip} 82 ${cx - 20 * flip} 104 Z`}
             fill={palette.primary}
           />
+          {/* Stylized 3-point White Tail Tip */}
           <path
-            d={`M ${cx - 40 * flip} 75 C ${cx - 48 * flip} 70 ${cx - 52 * flip} 85 ${cx - 45 * flip} 95 Z`}
+            d={`M ${cx - 42 * flip} 70 C ${cx - 52 * flip} 64 ${cx - 56 * flip} 80 ${cx - 48 * flip} 90 L ${cx - 44 * flip} 84 L ${cx - 42 * flip} 88 L ${cx - 38 * flip} 81 L ${cx - 36 * flip} 84 C ${cx - 32 * flip} 75 ${cx - 36 * flip} 68 ${cx - 42 * flip} 70 Z`}
             fill={palette.secondary}
           />
 
-          {/* Ears */}
-          <polygon points={`${cx - 22},${cy - 8} ${cx - 14},${cy - 30} ${cx - 4},${cy - 14}`} fill={palette.accent} />
-          <polygon points={`${cx - 15},${cy - 27} ${cx - 14},${cy - 30} ${cx - 10},${cy - 24}`} fill="#18181b" />
-          <polygon points={`${cx - 18},${cy - 10} ${cx - 13},${cy - 23} ${cx - 6},${cy - 15}`} fill="#ffedd5" />
-
-          <polygon points={`${cx + 22},${cy - 8} ${cx + 14},${cy - 30} ${cx + 4},${cy - 14}`} fill={palette.accent} />
-          <polygon points={`${cx + 15},${cy - 27} ${cx + 14},${cy - 30} ${cx + 10},${cy - 24}`} fill="#18181b" />
-          <polygon points={`${cx + 18},${cy - 10} ${cx + 13},${cy - 23} ${cx + 6},${cy - 15}`} fill="#ffedd5" />
-
-          {/* Body */}
+          {/* Fox Body */}
           <ellipse cx={cx} cy={bodyY} rx="24" ry="23" fill={palette.primary} />
+          {/* Lush White Chest Bib with Fluffy Scalloped Tuft */}
           <path
-            d={`M ${cx - 12} ${bodyY - 14} Q ${cx} ${bodyY - 2} ${cx + 12} ${bodyY - 14} L ${cx + 8} ${bodyY + 16} L ${cx - 8} ${bodyY + 16} Z`}
+            d={`M ${cx - 13} ${bodyY - 12} Q ${cx} ${bodyY - 4} ${cx + 13} ${bodyY - 12} L ${cx + 11} ${bodyY + 12} Q ${cx} ${bodyY + 18} ${cx - 11} ${bodyY + 12} Z`}
             fill={palette.secondary}
           />
-
-          {/* Head */}
-          <circle cx={cx} cy={cy} r="26" fill={palette.primary} />
           <path
-            d={`M ${cx - 18} ${cy + 6} Q ${cx} ${cy + 18} ${cx + 18} ${cy + 6} L ${cx} ${cy + 15} Z`}
-            fill={palette.secondary}
+            d={`M ${cx} ${bodyY - 2} L ${cx - 4} ${bodyY + 6} L ${cx} ${bodyY + 12} L ${cx + 4} ${bodyY + 6} Z`}
+            fill="#ffffff"
           />
 
-          {/* Nose */}
-          <circle cx={cx} cy={cy + 8} r="3" fill="#18181b" />
+          {/* Large Alert Fox Ears with Black Backs and Fluffy White Inner Tuft */}
+          {/* Left Ear */}
+          <polygon points={`${cx - 24},${cy - 2} ${cx - 15},${cy - 33} ${cx - 3},${cy - 14}`} fill="#18181b" />
+          <polygon points={`${cx - 22},${cy - 4} ${cx - 15},${cy - 30} ${cx - 5},${cy - 14}`} fill={palette.primary} />
+          {/* Inner White Tuft */}
+          <polygon points={`${cx - 19},${cy - 8} ${cx - 15},${cy - 25} ${cx - 7},${cy - 14}`} fill="#ffffff" />
+          <path d={`M ${cx - 17} ${cy - 12} L ${cx - 14} ${cy - 20} L ${cx - 10} ${cy - 13}`} fill="#ffedd5" />
 
-          {/* Eyes */}
+          {/* Right Ear */}
+          <polygon points={`${cx + 24},${cy - 2} ${cx + 15},${cy - 33} ${cx + 3},${cy - 14}`} fill="#18181b" />
+          <polygon points={`${cx + 22},${cy - 4} ${cx + 15},${cy - 30} ${cx + 5},${cy - 14}`} fill={palette.primary} />
+          {/* Inner White Tuft */}
+          <polygon points={`${cx + 19},${cy - 8} ${cx + 15},${cy - 25} ${cx + 7},${cy - 14}`} fill="#ffffff" />
+          <path d={`M ${cx + 17} ${cy - 12} L ${cx + 14} ${cy - 20} L ${cx + 10} ${cy - 13}`} fill="#ffedd5" />
+
+          {/* Fox Head Silhouette with Flared Cheek Tufts */}
           <path
-            d={`M ${cx - 11} ${cy - 4} Q ${cx - 7} ${cy - 9} ${cx - 3} ${cy - 4}`}
-            stroke="#431407"
-            strokeWidth="2.5"
+            d={`M ${cx - 22} ${cy + 6} L ${cx - 28} ${cy + 10} L ${cx - 22} ${cy + 13} L ${cx - 25} ${cy + 17} L ${cx - 15} ${cy + 22} Q ${cx} ${cy + 25} ${cx + 15} ${cy + 22} L ${cx + 25} ${cy + 17} L ${cx + 22} ${cy + 13} L ${cx + 28} ${cy + 10} L ${cx + 22} ${cy + 6} C ${cx + 26} ${cy - 10} ${cx + 16} ${cy - 26} ${cx} ${cy - 26} C ${cx - 16} ${cy - 26} ${cx - 26} ${cy - 10} ${cx - 22} ${cy + 6} Z`}
+            fill={palette.primary}
+          />
+
+          {/* Dramatic Fox White Mask - sweeps under eyes to cheeks and muzzle */}
+          <path
+            d={`M ${cx - 20} ${cy + 2} Q ${cx - 10} ${cy + 10} ${cx - 5} ${cy + 12} L ${cx} ${cy + 17} L ${cx + 5} ${cy + 12} Q ${cx + 10} ${cy + 10} ${cx + 20} ${cy + 2} L ${cx + 25} ${cy + 17} L ${cx + 15} ${cy + 22} Q ${cx} ${cy + 25} ${cx - 15} ${cy + 22} L ${cx - 25} ${cy + 17} Z`}
+            fill={palette.secondary}
+          />
+          <path
+            d={`M ${cx - 14} ${cy + 7} Q ${cx} ${cy + 14} ${cx + 14} ${cy + 7} L ${cx} ${cy + 22} Z`}
+            fill="#ffffff"
+          />
+
+          {/* Refined Black Button Nose */}
+          <ellipse cx={cx} cy={cy + 11} rx="3" ry="2.2" fill="#18181b" />
+          <circle cx={cx - 0.8} cy={cy + 10.3} r="0.8" fill="#ffffff" />
+          <path d={`M ${cx - 3} ${cy + 14} Q ${cx} ${cy + 17} ${cx + 3} ${cy + 14}`} stroke="#18181b" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+
+          {/* Sleek Almond Fox Eyes with Black Eyeliner Wings */}
+          <path
+            d={`M ${cx - 15} ${cy - 2} C ${cx - 13} ${cy - 8} ${cx - 7} ${cy - 8} ${cx - 4} ${cy - 2}`}
+            stroke="#18181b"
+            strokeWidth="2.8"
             strokeLinecap="round"
             fill="none"
           />
+          {/* Sparkling Eye Iris & Double Catchlights */}
+          <circle cx={cx - 9} cy={cy - 2.5} r="3.2" fill="#18181b" />
+          <circle cx={cx - 10} cy={cy - 3.5} r="1.3" fill="#ffffff" />
+          <circle cx={cx - 7.5} cy={cy - 1.2} r="0.7" fill="#ffffff" />
+
           <path
-            d={`M ${cx + 3} ${cy - 4} Q ${cx + 7} ${cy - 9} ${cx + 11} ${cy - 4}`}
-            stroke="#431407"
-            strokeWidth="2.5"
+            d={`M ${cx + 4} ${cy - 2} C ${cx + 7} ${cy - 8} ${cx + 13} ${cy - 8} ${cx + 15} ${cy - 2}`}
+            stroke="#18181b"
+            strokeWidth="2.8"
             strokeLinecap="round"
             fill="none"
           />
+          <circle cx={cx + 9} cy={cy - 2.5} r="3.2" fill="#18181b" />
+          <circle cx={cx + 8} cy={cy - 3.5} r="1.3" fill="#ffffff" />
+          <circle cx={cx + 10.5} cy={cy - 1.2} r="0.7" fill="#ffffff" />
 
-          {/* Cheeks */}
-          <ellipse cx={cx - 12} cy={cy + 2} rx="4" ry="3" fill="#fda4af" opacity="0.9" />
-          <ellipse cx={cx + 12} cy={cy + 2} rx="4" ry="3" fill="#fda4af" opacity="0.9" />
+          {/* Rosy Cheeks */}
+          <ellipse cx={cx - 15} cy={cy + 6} rx="4.5" ry="3" fill="#fda4af" opacity="0.9" />
+          <ellipse cx={cx + 15} cy={cy + 6} rx="4.5" ry="3" fill="#fda4af" opacity="0.9" />
 
-          {/* Paws */}
-          <ellipse cx={cx - 9} cy="118" rx="6" ry="5" fill="#18181b" />
-          <ellipse cx={cx + 9} cy="118" rx="6" ry="5" fill="#18181b" />
+          {/* Sleek Black Fox Paws / Socks */}
+          <ellipse cx={cx - 9} cy="118" rx="6.5" ry="5" fill="#18181b" />
+          <ellipse cx={cx + 9} cy="118" rx="6.5" ry="5" fill="#18181b" />
         </g>
       )}
 
@@ -497,46 +570,88 @@ export const AnimalFigure: React.FC<AnimalFigureProps> = ({
       )}
 
       {pet === 'penguin' && (
-        <g id={`${prefix}-penguin`}>
-          {/* Penguin Body (Tuxedo) */}
-          <ellipse cx={cx} cy={bodyY - 4} rx="24" ry="28" fill={palette.primary} />
-          {/* Belly */}
-          <ellipse cx={cx} cy={bodyY - 2} rx="15" ry="22" fill={palette.secondary} />
-
-          {/* Flippers */}
+        <g id={`${prefix}-penguin`} className="transition-transform duration-300">
+          {/* Flippers behind/side */}
           <ellipse
-            cx={cx - 20}
-            cy={bodyY}
-            rx="5.5"
+            cx={cx - 23}
+            cy={bodyY - 2}
+            rx="6"
             ry="14"
             fill={palette.primary}
-            transform={`rotate(20 ${cx - 20} ${bodyY})`}
+            transform={`rotate(22 ${cx - 23} ${bodyY - 2})`}
           />
           <ellipse
-            cx={cx + 20}
-            cy={bodyY}
-            rx="5.5"
+            cx={cx + 23}
+            cy={bodyY - 2}
+            rx="6"
             ry="14"
             fill={palette.primary}
-            transform={`rotate(-20 ${cx + 20} ${bodyY})`}
+            transform={`rotate(-22 ${cx + 23} ${bodyY - 2})`}
           />
 
-          {/* Eyes */}
-          <circle cx={cx - 7} cy={cy - 8} r="3" fill={palette.primary} />
-          <circle cx={cx - 8} cy={cy - 9} r="1" fill="#ffffff" />
-          <circle cx={cx + 7} cy={cy - 8} r="3" fill={palette.primary} />
-          <circle cx={cx + 6} cy={cy - 9} r="1" fill="#ffffff" />
+          {/* Chubby Penguin Body (Tuxedo) */}
+          <ellipse cx={cx} cy={bodyY} rx="26" ry="23" fill={palette.primary} />
 
-          {/* Beak */}
-          <polygon points={`${cx - 5},${cy - 2} ${cx + 5},${cy - 2} ${cx},${cy + 4}`} fill={palette.accent} />
+          {/* Penguin Head Dome (Top at 46, centered at 68) */}
+          <circle cx={cx} cy="68" r="22" fill={palette.primary} />
 
-          {/* Cheeks */}
-          <ellipse cx={cx - 12} cy={cy - 2} rx="4" ry="3" fill="#fda4af" opacity="0.9" />
-          <ellipse cx={cx + 12} cy={cy - 2} rx="4" ry="3" fill="#fda4af" opacity="0.9" />
+          {/* Crisp White Face Mask (Sanrio/Kawaii Style) */}
+          <path
+            d={`M ${cx - 15} 67 C ${cx - 15} 55 ${cx - 2} 55 ${cx} 62 C ${cx + 2} 55 ${cx + 15} 55 ${cx + 15} 67 C ${cx + 15} 78 ${cx + 8} 86 ${cx} 88 C ${cx - 8} 86 ${cx - 15} 78 ${cx - 15} 67 Z`}
+            fill="#ffffff"
+          />
 
-          {/* Webbed Feet */}
-          <ellipse cx={cx - 8} cy="118" rx="7" ry="4" fill={palette.accent} />
-          <ellipse cx={cx + 8} cy="118" rx="7" ry="4" fill={palette.accent} />
+          {/* Broad Brilliant White Belly */}
+          <ellipse cx={cx} cy={bodyY + 2} rx="16" ry="18" fill="#ffffff" />
+
+          {/* Big Glossy Penguin Eyes (Centered at y=68 with plenty of forehead above!) */}
+          <circle cx={cx - 8} cy="68" r="3.6" fill="#0f172a" />
+          <circle cx={cx - 9.5} cy="66.5" r="1.5" fill="#ffffff" />
+          <circle cx={cx - 6.8} cy="69.5" r="0.8" fill="#ffffff" />
+
+          <circle cx={cx + 8} cy="68" r="3.6" fill="#0f172a" />
+          <circle cx={cx + 6.5} cy="66.5" r="1.5" fill="#ffffff" />
+          <circle cx={cx + 9.2} cy="69.5" r="0.8" fill="#ffffff" />
+
+          {/* Rosy Cheeks */}
+          <ellipse cx={cx - 13} cy="73" rx="4" ry="2.8" fill="#fda4af" opacity="0.9" />
+          <ellipse cx={cx + 13} cy="73" rx="4" ry="2.8" fill="#fda4af" opacity="0.9" />
+
+          {/* 3D Golden-Amber Beak */}
+          <path
+            d={`M ${cx - 5.5} 72 Q ${cx} 70 ${cx + 5.5} 72 L ${cx} 78 Z`}
+            fill="#d97706"
+          />
+          <path
+            d={`M ${cx - 5.5} 72 Q ${cx} 70 ${cx + 5.5} 72 L ${cx} 76 Z`}
+            fill="#fbbf24"
+          />
+
+          {/* Front Flipper Wings */}
+          <path
+            d={`M ${cx - 21} ${bodyY - 6} C ${cx - 24} ${bodyY + 6} ${cx - 14} ${bodyY + 12} ${cx - 13} ${bodyY + 3} Z`}
+            fill={palette.primary}
+            opacity="0.25"
+          />
+          <path
+            d={`M ${cx + 21} ${bodyY - 6} C ${cx + 24} ${bodyY + 6} ${cx + 14} ${bodyY + 12} ${cx + 13} ${bodyY + 3} Z`}
+            fill={palette.primary}
+            opacity="0.25"
+          />
+
+          {/* Cute Plump Webbed Orange Feet */}
+          <path
+            d={`M ${cx - 14} 118 Q ${cx - 8} 114 ${cx - 2} 118 Q ${cx - 4} 122 ${cx - 8} 122 Q ${cx - 12} 122 ${cx - 14} 118 Z`}
+            fill="#f59e0b"
+            stroke="#d97706"
+            strokeWidth="0.6"
+          />
+          <path
+            d={`M ${cx + 2} 118 Q ${cx + 8} 114 ${cx + 14} 118 Q ${cx + 12} 122 ${cx + 8} 122 Q ${cx + 4} 122 ${cx + 2} 118 Z`}
+            fill="#f59e0b"
+            stroke="#d97706"
+            strokeWidth="0.6"
+          />
         </g>
       )}
 
