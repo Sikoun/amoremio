@@ -207,94 +207,196 @@ export const AnimalFigure: React.FC<AnimalFigureProps> = ({
       )}
 
       {pet === 'bear' && (
-        <g id={`${prefix}-bear`}>
+        <g id={`${prefix}-bear`} className="transition-transform duration-300">
           {/* Bear Body */}
           <ellipse cx={cx} cy={bodyY} rx="26" ry="24" fill={palette.primary} />
-          <ellipse cx={cx} cy={bodyY + 2} rx="16" ry="15" fill={palette.secondary} />
-
-          {/* Bear Head */}
-          <circle cx={cx} cy={cy} r="28" fill={palette.primary} />
-          {/* Ears */}
-          <circle cx={cx - 20} cy={cy - 20} r="10" fill={palette.primary} />
-          <circle cx={cx - 20} cy={cy - 20} r="5" fill={palette.secondary} />
-          <circle cx={cx + 20} cy={cy - 20} r="10" fill={palette.primary} />
-          <circle cx={cx + 20} cy={cy - 20} r="5" fill={palette.secondary} />
-
-          {/* Snout */}
-          <ellipse cx={cx} cy={cy + 6} rx="13" ry="9" fill={palette.secondary} />
-          <ellipse cx={cx} cy={cy + 2} rx="5" ry="3.5" fill="#451a03" />
+          {/* Cozy Plush Tummy Patch */}
+          <ellipse cx={cx} cy={bodyY + 2} rx="16" ry="16" fill={palette.secondary} />
+          {/* Subtle belly fluff shading */}
           <path
-            d={`M ${cx - 4} ${cy + 7} Q ${cx} ${cy + 11} ${cx + 4} ${cy + 7}`}
+            d={`M ${cx - 10} ${bodyY - 10} Q ${cx} ${bodyY - 4} ${cx + 10} ${bodyY - 10} L ${cx + 12} ${bodyY + 12} Q ${cx} ${bodyY + 18} ${cx - 12} ${bodyY + 12} Z`}
+            fill={palette.secondary}
+            opacity="0.9"
+          />
+
+          {/* Cupped Plush Teddy Ears */}
+          {/* Left Ear */}
+          <circle cx={cx - 20} cy={cy - 20} r="11" fill={palette.primary} stroke={palette.accent} strokeWidth="0.8" />
+          <circle cx={cx - 20} cy={cy - 20} r="6.5" fill={palette.secondary} />
+          <path d={`M ${cx - 22} ${cy - 21} Q ${cx - 20} ${cy - 24} ${cx - 18} ${cy - 21}`} stroke={palette.accent} strokeWidth="0.8" strokeLinecap="round" opacity="0.6" fill="none" />
+
+          {/* Right Ear */}
+          <circle cx={cx + 20} cy={cy - 20} r="11" fill={palette.primary} stroke={palette.accent} strokeWidth="0.8" />
+          <circle cx={cx + 20} cy={cy - 20} r="6.5" fill={palette.secondary} />
+          <path d={`M ${cx + 18} ${cy - 21} Q ${cx + 20} ${cy - 24} ${cx + 22} ${cy - 21}`} stroke={palette.accent} strokeWidth="0.8" strokeLinecap="round" opacity="0.6" fill="none" />
+
+          {/* Bear Head with Chubby Teddy Cheeks */}
+          <path
+            d={`M ${cx - 24} ${cy + 12} C ${cx - 30} ${cy + 4} ${cx - 30} ${cy - 12} ${cx - 22} ${cy - 24} C ${cx - 12} ${cy - 28} ${cx + 12} ${cy - 28} ${cx + 22} ${cy - 24} C ${cx + 30} ${cy - 12} ${cx + 30} ${cy + 4} ${cx + 24} ${cy + 12} C ${cx + 18} ${cy + 24} ${cx - 18} ${cy + 24} ${cx - 24} ${cy + 12} Z`}
+            fill={palette.primary}
+          />
+
+          {/* Plush Teddy Snout / Muzzle */}
+          <ellipse cx={cx} cy={cy + 7} rx="14" ry="10" fill={palette.secondary} />
+
+          {/* Shiny Dark Chocolate Button Nose */}
+          <path
+            d={`M ${cx - 5.5} ${cy + 3} C ${cx - 6} ${cy + 1} ${cx - 3} ${cy} ${cx} ${cy} C ${cx + 3} ${cy} ${cx + 6} ${cy + 1} ${cx + 5.5} ${cy + 3} C ${cx + 4} ${cy + 7} ${cx} ${cy + 8} ${cx} ${cy + 8} C ${cx} ${cy + 8} ${cx - 4} ${cy + 7} ${cx - 5.5} ${cy + 3} Z`}
+            fill="#451a03"
+          />
+          <circle cx={cx - 1.8} cy={cy + 2.2} r="1.1" fill="#ffffff" />
+
+          {/* Teddy Smile */}
+          <path
+            d={`M ${cx - 5} ${cy + 9.5} Q ${cx - 2.5} ${cy + 13} ${cx} ${cy + 10.5} Q ${cx + 2.5} ${cy + 13} ${cx + 5} ${cy + 9.5}`}
             stroke="#451a03"
-            strokeWidth="1.8"
+            strokeWidth="1.6"
             strokeLinecap="round"
             fill="none"
           />
+          <line x1={cx} y1={cy + 8} x2={cx} y2={cy + 10.5} stroke="#451a03" strokeWidth="1.4" />
 
-          {/* Eyes */}
-          <circle cx={cx - 10} cy={cy - 4} r="3" fill="#451a03" />
-          <circle cx={cx - 11} cy={cy - 5} r="1" fill="#ffffff" />
-          <circle cx={cx + 10} cy={cy - 4} r="3" fill="#451a03" />
-          <circle cx={cx + 9} cy={cy - 5} r="1" fill="#ffffff" />
+          {/* Big Warm Teddy Eyes with Double Catchlights */}
+          <ellipse cx={cx - 10} cy={cy - 2} rx="4.5" ry="5.2" fill="#451a03" />
+          <ellipse cx={cx - 10} cy={cy - 1} rx="3.5" ry="3.8" fill="#78350f" opacity="0.4" />
+          <circle cx={cx - 11.5} cy={cy - 4} r="1.8" fill="#ffffff" />
+          <circle cx={cx - 8.5} cy={cy} r="1" fill="#ffffff" />
 
-          {/* Cheeks */}
-          <ellipse cx={cx - 14} cy={cy + 3} rx="4.5" ry="3" fill="#fda4af" opacity="0.8" />
-          <ellipse cx={cx + 14} cy={cy + 3} rx="4.5" ry="3" fill="#fda4af" opacity="0.8" />
+          <ellipse cx={cx + 10} cy={cy - 2} rx="4.5" ry="5.2" fill="#451a03" />
+          <ellipse cx={cx + 10} cy={cy - 1} rx="3.5" ry="3.8" fill="#78350f" opacity="0.4" />
+          <circle cx={cx + 8.5} cy={cy - 4} r="1.8" fill="#ffffff" />
+          <circle cx={cx + 11.5} cy={cy} r="1" fill="#ffffff" />
 
-          {/* Paws */}
-          <ellipse cx={cx - 11} cy="118" rx="7.5" ry="5.5" fill={palette.accent} />
-          <ellipse cx={cx + 11} cy="118" rx="7.5" ry="5.5" fill={palette.accent} />
+          {/* Rosy Cheeks */}
+          <ellipse cx={cx - 16} cy={cy + 5} rx="4.5" ry="3.2" fill="#fda4af" opacity="0.85" />
+          <ellipse cx={cx + 16} cy={cy + 5} rx="4.5" ry="3.2" fill="#fda4af" opacity="0.85" />
+
+          {/* Plush Teddy Paws with Cute Contrast Bean Pads! */}
+          <ellipse cx={cx - 11} cy="118" rx="8" ry="6" fill={palette.primary} stroke={palette.accent} strokeWidth="0.8" />
+          <ellipse cx={cx - 11} cy="118.5" rx="4.2" ry="3.2" fill={palette.secondary} />
+          <circle cx={cx - 14} cy="115.5" r="1.3" fill={palette.secondary} />
+          <circle cx={cx - 11} cy="114.5" r="1.4" fill={palette.secondary} />
+          <circle cx={cx - 8} cy="115.5" r="1.3" fill={palette.secondary} />
+
+          <ellipse cx={cx + 11} cy="118" rx="8" ry="6" fill={palette.primary} stroke={palette.accent} strokeWidth="0.8" />
+          <ellipse cx={cx + 11} cy="118.5" rx="4.2" ry="3.2" fill={palette.secondary} />
+          <circle cx={cx + 8} cy="115.5" r="1.3" fill={palette.secondary} />
+          <circle cx={cx + 11} cy="114.5" r="1.4" fill={palette.secondary} />
+          <circle cx={cx + 14} cy="115.5" r="1.3" fill={palette.secondary} />
         </g>
       )}
 
       {pet === 'bunny' && (
-        <g id={`${prefix}-bunny`}>
-          {/* Bunny Ears */}
-          <ellipse cx={cx - 9} cy={cy - 30} rx="6" ry="18" fill={palette.primary} stroke={palette.secondary} strokeWidth="1.5" />
-          <ellipse cx={cx - 9} cy={cy - 30} rx="3" ry="13" fill={palette.secondary} />
-          <ellipse cx={cx + 9} cy={cy - 30} rx="6" ry="18" fill={palette.primary} stroke={palette.secondary} strokeWidth="1.5" />
-          <ellipse cx={cx + 9} cy={cy - 30} rx="3" ry="13" fill={palette.secondary} />
+        <g id={`${prefix}-bunny`} className="transition-transform duration-300">
+          {/* Fluffy Cotton Tail (Peeking out at side) */}
+          <circle cx={cx - 24 * flip} cy="110" r="8" fill="#ffffff" stroke="#fecdd3" strokeWidth="0.8" />
+          <circle cx={cx - 26 * flip} cy="108" r="5" fill="#fff1f2" />
 
-          {/* Body */}
-          <ellipse cx={cx} cy={bodyY} rx="24" ry="23" fill={palette.primary} stroke={palette.secondary} strokeWidth="1.5" />
-          <ellipse cx={cx} cy={bodyY + 2} rx="14" ry="14" fill="#ffffff" opacity="0.8" />
-
-          {/* Head */}
-          <circle cx={cx} cy={cy} r="26" fill={palette.primary} stroke={palette.secondary} strokeWidth="1.5" />
-
-          {/* Nose */}
-          <ellipse cx={cx} cy={cy + 3} rx="3.5" ry="2.5" fill="#f43f5e" />
+          {/* Chubby Bunny Body */}
+          <ellipse cx={cx} cy={bodyY} rx="24" ry="23" fill={palette.primary} stroke={palette.secondary} strokeWidth="1.2" />
+          {/* Sweet Creamy Tummy */}
+          <ellipse cx={cx} cy={bodyY + 2} rx="15" ry="16" fill="#fff1f2" />
           <path
-            d={`M ${cx - 4} ${cy + 7} Q ${cx} ${cy + 10} ${cx + 4} ${cy + 7}`}
+            d={`M ${cx - 8} ${bodyY - 10} Q ${cx} ${bodyY - 4} ${cx + 8} ${bodyY - 10} L ${cx + 10} ${bodyY + 12} Q ${cx} ${bodyY + 16} ${cx - 10} ${bodyY + 12} Z`}
+            fill="#ffffff"
+            opacity="0.9"
+          />
+
+          {/* Expressive Soft Bunny Ears (Playfully curved & bouncy) */}
+          {/* Left Ear - Perked with gentle curve */}
+          <path
+            d={`M ${cx - 16} ${cy - 12} C ${cx - 20} ${cy - 26} ${cx - 18} ${cy - 44} ${cx - 9} ${cy - 44} C ${cx - 1} ${cy - 44} ${cx - 2} ${cy - 26} ${cx - 5} ${cy - 14} Z`}
+            fill={palette.primary}
+            stroke={palette.secondary}
+            strokeWidth="1.2"
+          />
+          {/* Left Inner Pink Velvet */}
+          <path
+            d={`M ${cx - 14} ${cy - 16} C ${cx - 17} ${cy - 26} ${cx - 15} ${cy - 40} ${cx - 9} ${cy - 40} C ${cx - 4} ${cy - 40} ${cx - 5} ${cy - 26} ${cx - 7} ${cy - 18} Z`}
+            fill="#fda4af"
+          />
+          <path
+            d={`M ${cx - 10} ${cy - 22} Q ${cx - 9} ${cy - 34} ${cx - 8} ${cy - 22}`}
+            stroke="#ffffff"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            opacity="0.75"
+            fill="none"
+          />
+
+          {/* Right Ear - Playfully tipped/cocked */}
+          <path
+            d={`M ${cx + 5} ${cy - 14} C ${cx + 4} ${cy - 28} ${cx + 7} ${cy - 45} ${cx + 15} ${cy - 44} C ${cx + 22} ${cy - 43} ${cx + 20} ${cy - 24} ${cx + 16} ${cy - 12} Z`}
+            fill={palette.primary}
+            stroke={palette.secondary}
+            strokeWidth="1.2"
+          />
+          {/* Right Inner Pink Velvet */}
+          <path
+            d={`M ${cx + 7} ${cy - 18} C ${cx + 6} ${cy - 28} ${cx + 9} ${cy - 40} ${cx + 14} ${cy - 39} C ${cx + 19} ${cy - 38} ${cx + 17} ${cy - 25} ${cx + 14} ${cy - 16} Z`}
+            fill="#fda4af"
+          />
+          <path
+            d={`M ${cx + 11} ${cy - 22} Q ${cx + 12} ${cy - 34} ${cx + 13} ${cy - 22}`}
+            stroke="#ffffff"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            opacity="0.75"
+            fill="none"
+          />
+
+          {/* Bunny Head - Chubby Cheeked Round Silhouette */}
+          <path
+            d={`M ${cx - 24} ${cy + 8} C ${cx - 28} ${cy + 2} ${cx - 28} ${cy - 12} ${cx - 20} ${cy - 22} C ${cx - 10} ${cy - 27} ${cx + 10} ${cy - 27} ${cx + 20} ${cy - 22} C ${cx + 28} ${cy - 12} ${cx + 28} ${cy + 2} ${cx + 24} ${cy + 8} C ${cx + 18} ${cy + 22} ${cx - 18} ${cy + 22} ${cx - 24} ${cy + 8} Z`}
+            fill={palette.primary}
+            stroke={palette.secondary}
+            strokeWidth="1.2"
+          />
+
+          {/* Puffy Soft White Cheeks / Muzzle */}
+          <ellipse cx={cx - 5} cy={cy + 7} rx="6.2" ry="5" fill="#ffffff" />
+          <ellipse cx={cx + 5} cy={cy + 7} rx="6.2" ry="5" fill="#ffffff" />
+
+          {/* Tiny Pink Heart Nose */}
+          <path
+            d={`M ${cx} ${cy + 3.8} C ${cx - 0.6} ${cy + 2.8} ${cx - 2.5} ${cy + 2.8} ${cx - 2.5} ${cy + 4.2} C ${cx - 2.5} ${cy + 5.5} ${cx} ${cy + 7} ${cx} ${cy + 7} C ${cx} ${cy + 7} ${cx + 2.5} ${cy + 5.5} ${cx + 2.5} ${cy + 4.2} C ${cx + 2.5} ${cy + 2.8} ${cx + 0.6} ${cy + 2.8} ${cx} ${cy + 3.8} Z`}
+            fill="#f43f5e"
+          />
+
+          {/* Bunny Smile */}
+          <path
+            d={`M ${cx - 4.5} ${cy + 8.5} Q ${cx - 2.2} ${cy + 11.2} ${cx} ${cy + 9} Q ${cx + 2.2} ${cy + 11.2} ${cx + 4.5} ${cy + 8.5}`}
             stroke="#9f1239"
-            strokeWidth="1.5"
+            strokeWidth="1.4"
             strokeLinecap="round"
             fill="none"
           />
 
-          {/* Eyes */}
-          <path
-            d={`M ${cx - 10} ${cy - 5} Q ${cx - 6} ${cy - 10} ${cx - 2} ${cy - 5}`}
-            stroke="#9f1239"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            fill="none"
-          />
-          <path
-            d={`M ${cx + 2} ${cy - 5} Q ${cx + 6} ${cy - 10} ${cx + 10} ${cy - 5}`}
-            stroke="#9f1239"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            fill="none"
-          />
+          {/* Delicate Whiskers */}
+          <path d={`M ${cx - 9} ${cy + 6} L ${cx - 21} ${cy + 4} M ${cx - 9} ${cy + 9} L ${cx - 20} ${cy + 11}`} stroke="#fda4af" strokeWidth="1.1" strokeLinecap="round" />
+          <path d={`M ${cx + 9} ${cy + 6} L ${cx + 21} ${cy + 4} M ${cx + 9} ${cy + 9} L ${cx + 20} ${cy + 11}`} stroke="#fda4af" strokeWidth="1.1" strokeLinecap="round" />
 
-          {/* Cheeks */}
-          <ellipse cx={cx - 13} cy={cy + 2} rx="5" ry="3.5" fill="#fda4af" opacity="0.9" />
-          <ellipse cx={cx + 13} cy={cy + 2} rx="5" ry="3.5" fill="#fda4af" opacity="0.9" />
+          {/* Big Sparkling Anime Bunny Eyes */}
+          <ellipse cx={cx - 9} cy={cy - 2} rx="4.5" ry="5.2" fill="#881337" />
+          <ellipse cx={cx - 9} cy={cy - 1} rx="3.5" ry="3.8" fill="#be123c" opacity="0.45" />
+          <circle cx={cx - 10.5} cy={cy - 4} r="1.8" fill="#ffffff" />
+          <circle cx={cx - 7.5} cy={cy} r="1" fill="#ffffff" />
 
-          {/* Paws */}
+          <ellipse cx={cx + 9} cy={cy - 2} rx="4.5" ry="5.2" fill="#881337" />
+          <ellipse cx={cx + 9} cy={cy - 1} rx="3.5" ry="3.8" fill="#be123c" opacity="0.45" />
+          <circle cx={cx + 7.5} cy={cy - 4} r="1.8" fill="#ffffff" />
+          <circle cx={cx + 10.5} cy={cy} r="1" fill="#ffffff" />
+
+          {/* Soft Glowing Rosy Cheeks */}
+          <ellipse cx={cx - 15} cy={cy + 5} rx="4.5" ry="3.2" fill="#fda4af" opacity="0.9" />
+          <ellipse cx={cx + 15} cy={cy + 5} rx="4.5" ry="3.2" fill="#fda4af" opacity="0.9" />
+
+          {/* Soft Bunny Paws with Pink Toe Beans */}
           <ellipse cx={cx - 8} cy="118" rx="6.5" ry="5" fill={palette.primary} stroke={palette.secondary} strokeWidth="1" />
+          <ellipse cx={cx - 8} cy="118.5" rx="3.5" ry="2.6" fill="#fecdd3" />
+
           <ellipse cx={cx + 8} cy="118" rx="6.5" ry="5" fill={palette.primary} stroke={palette.secondary} strokeWidth="1" />
+          <ellipse cx={cx + 8} cy="118.5" rx="3.5" ry="2.6" fill="#fecdd3" />
         </g>
       )}
 
