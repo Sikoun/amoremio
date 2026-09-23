@@ -55,6 +55,17 @@ export const AnimalFigure: React.FC<AnimalFigureProps> = ({
         </linearGradient>
       </defs>
 
+      {/* BACK ACCESSORIES LAYER (behind skull & neck) */}
+      <PetAccessories
+        species={pet}
+        head={headAcc}
+        neck={neckAcc}
+        cx={cx}
+        cy={cy}
+        flip={flip}
+        layer="back"
+      />
+
       {/* ANIMAL BODY BY SPECIES */}
       {pet === 'sealion' && (
         <g id={`${prefix}-sealion`} className="transition-transform duration-300">
@@ -529,7 +540,7 @@ export const AnimalFigure: React.FC<AnimalFigureProps> = ({
         </g>
       )}
 
-      {/* ACCESSORIES OVERLAY LAYER */}
+      {/* FRONT ACCESSORIES OVERLAY LAYER */}
       <PetAccessories
         species={pet}
         head={headAcc}
@@ -537,6 +548,7 @@ export const AnimalFigure: React.FC<AnimalFigureProps> = ({
         cx={cx}
         cy={cy}
         flip={flip}
+        layer="front"
       />
     </g>
   );
