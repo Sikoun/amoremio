@@ -747,7 +747,7 @@ export const AnimalFigure: React.FC<AnimalFigureProps> = ({
           {/* Stylized 3-point White Tail Tip */}
           <path
             d={`M ${cx - 42 * flip} 70 C ${cx - 52 * flip} 64 ${cx - 56 * flip} 80 ${cx - 48 * flip} 90 L ${cx - 44 * flip} 84 L ${cx - 42 * flip} 88 L ${cx - 38 * flip} 81 L ${cx - 36 * flip} 84 C ${cx - 32 * flip} 75 ${cx - 36 * flip} 68 ${cx - 42 * flip} 70 Z`}
-            fill={palette.secondary}
+            fill="#ffffff"
           />
 
           {/* Sleek Fox Body */}
@@ -759,93 +759,84 @@ export const AnimalFigure: React.FC<AnimalFigureProps> = ({
             opacity="0.95"
           />
 
-          {/* Large Alert Triangular Fox Ears */}
+          {/* Large Alert Triangular Fox Ears (Storybook Style) */}
           {/* Left Ear */}
-          <polygon points={`${cx - 23},${cy - 3} ${cx - 15},${cy - 33} ${cx - 3},${cy - 13}`} fill="#18181b" />
-          <polygon points={`${cx - 21},${cy - 5} ${cx - 15},${cy - 30} ${cx - 5},${cy - 13}`} fill={palette.primary} />
-          <polygon points={`${cx - 18},${cy - 8} ${cx - 15},${cy - 25} ${cx - 7},${cy - 13}`} fill="#ffffff" />
+          <polygon points={`${cx - 23},${cy - 2} ${cx - 15},${cy - 33} ${cx - 3},${cy - 13}`} fill="#18181b" />
+          <polygon points={`${cx - 21},${cy - 4} ${cx - 15},${cy - 30} ${cx - 5},${cy - 13}`} fill={palette.primary} />
+          <polygon points={`${cx - 18},${cy - 7} ${cx - 15},${cy - 25} ${cx - 7},${cy - 13}`} fill="#fef3c7" />
 
           {/* Right Ear */}
-          <polygon points={`${cx + 23},${cy - 3} ${cx + 15},${cy - 33} ${cx + 3},${cy - 13}`} fill="#18181b" />
-          <polygon points={`${cx + 21},${cy - 5} ${cx + 15},${cy - 30} ${cx + 5},${cy - 13}`} fill={palette.primary} />
-          <polygon points={`${cx + 18},${cy - 8} ${cx + 15},${cy - 25} ${cx + 7},${cy - 13}`} fill="#ffffff" />
+          <polygon points={`${cx + 23},${cy - 2} ${cx + 15},${cy - 33} ${cx + 3},${cy - 13}`} fill="#18181b" />
+          <polygon points={`${cx + 21},${cy - 4} ${cx + 15},${cy - 30} ${cx + 5},${cy - 13}`} fill={palette.primary} />
+          <polygon points={`${cx + 18},${cy - 7} ${cx + 15},${cy - 25} ${cx + 7},${cy - 13}`} fill="#fef3c7" />
 
-          {/* Sleek Agile Fox Head - Classic Inverted Triangle / Diamond Silhouette */}
+          {/* Sleek Agile Fox Head - Classic Inverted Triangle Silhouette */}
           <path
             d={`M ${cx - 27} ${cy + 3} 
-                L ${cx - 22} ${cy + 7} 
-                L ${cx - 25} ${cy + 11} 
-                L ${cx} ${cy + 23} 
-                L ${cx + 25} ${cy + 11} 
-                L ${cx + 22} ${cy + 7} 
-                L ${cx + 27} ${cy + 3} 
+                Q ${cx - 21} ${cy + 6} ${cx - 25} ${cy + 10} 
+                Q ${cx - 18} ${cy + 14} ${cx} ${cy + 22} 
+                Q ${cx + 18} ${cy + 14} ${cx + 25} ${cy + 10} 
+                Q ${cx + 21} ${cy + 6} ${cx + 27} ${cy + 3} 
                 C ${cx + 24} ${cy - 8} ${cx + 15} ${cy - 23} ${cx} ${cy - 23} 
                 C ${cx - 15} ${cy - 23} ${cx - 24} ${cy - 8} ${cx - 27} ${cy + 3} Z`}
             fill={palette.primary}
           />
 
-          {/* Crisp White Cheek & Muzzle Mask - Accentuates the Sleek V-Taper */}
+          {/* Whimsical White Cheek Fluff - Left Cheek */}
           <path
-            d={`M ${cx - 24} ${cy + 3} 
-                Q ${cx - 10} ${cy + 7} ${cx} ${cy + 8} 
-                Q ${cx + 10} ${cy + 7} ${cx + 24} ${cy + 3} 
-                L ${cx + 25} ${cy + 11} 
-                L ${cx} ${cy + 23} 
-                L ${cx - 25} ${cy + 11} Z`}
+            d={`M ${cx - 13} ${cy + 2} 
+                Q ${cx - 24} ${cy + 3} ${cx - 27} ${cy + 6} 
+                Q ${cx - 19} ${cy + 9} ${cx - 24} ${cy + 12} 
+                Q ${cx - 12} ${cy + 16} ${cx} ${cy + 22} 
+                L ${cx} ${cy + 11} 
+                Q ${cx - 6} ${cy + 6} ${cx - 13} ${cy + 2} Z`}
+            fill="#ffffff"
+          />
+
+          {/* Whimsical White Cheek Fluff - Right Cheek */}
+          <path
+            d={`M ${cx + 13} ${cy + 2} 
+                Q ${cx + 24} ${cy + 3} ${cx + 27} ${cy + 6} 
+                Q ${cx + 19} ${cy + 9} ${cx + 24} ${cy + 12} 
+                Q ${cx + 12} ${cy + 16} ${cx} ${cy + 22} 
+                L ${cx} ${cy + 11} 
+                Q ${cx + 6} ${cy + 6} ${cx + 13} ${cy + 2} Z`}
             fill="#ffffff"
           />
 
           {/* Sleek Crisp Black Fox Nose */}
           <path
-            d={`M ${cx} ${cy + 12.5} L ${cx - 3} ${cy + 9.5} C ${cx - 2.2} ${cy + 8.8} ${cx + 2.2} ${cy + 8.8} ${cx + 3} ${cy + 9.5} Z`}
+            d={`M ${cx} ${cy + 11.5} L ${cx - 3.2} ${cy + 8.5} C ${cx - 2.5} ${cy + 7.8} ${cx + 2.5} ${cy + 7.8} ${cx + 3.2} ${cy + 8.5} Z`}
             fill="#18181b"
           />
-          <circle cx={cx - 0.9} cy={cy + 9.8} r="0.6" fill="#ffffff" opacity="0.6" />
+          <circle cx={cx - 1} cy={cy + 8.8} r="0.6" fill="#ffffff" opacity="0.65" />
 
-          {/* Clever Sly Fox Smirk */}
-          <line x1={cx} y1={cy + 12.5} x2={cx} y2={cy + 14.5} stroke="#18181b" strokeWidth="1.2" strokeLinecap="round" />
+          {/* Cheeky Wiseass Upward Fox Smirk */}
+          <line x1={cx} y1={cy + 10} x2={cx} y2={cy + 12} stroke="#18181b" strokeWidth="1.3" strokeLinecap="round" />
           <path
-            d={`M ${cx - 4} ${cy + 14} Q ${cx} ${cy + 15.8} ${cx + 4.5} ${cy + 13.8} Q ${cx + 7} ${cy + 12.5} ${cx + 8} ${cy + 13.5}`}
+            d={`M ${cx - 3.5} ${cy + 12.5} Q ${cx} ${cy + 14.5} ${cx + 4} ${cy + 13.5} Q ${cx + 7.5} ${cy + 11.5} ${cx + 9} ${cy + 8.5}`}
             stroke="#18181b"
-            strokeWidth="1.4"
+            strokeWidth="1.6"
             strokeLinecap="round"
             fill="none"
           />
 
-          {/* Charismatic Squinting Sly Eyes (Classic Storybook Illustration) */}
-          {/* Left Sly Eye */}
-          <path
-            d={`M ${cx - 15} ${cy - 1} Q ${cx - 9.5} ${cy - 6.5} ${cx - 4} ${cy - 2}`}
-            stroke="#18181b"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            fill="none"
-          />
-          <path
-            d={`M ${cx - 15} ${cy - 1} L ${cx - 18} ${cy - 3}`}
-            stroke="#18181b"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
+          {/* Witty Tilted Storybook Eyes (Awake, Lively & Whimsical) */}
+          {/* Left Eye */}
+          <g transform={`rotate(-12 ${cx - 9.5} ${cy - 2})`}>
+            <ellipse cx={cx - 9.5} cy={cy - 2} rx="4.2" ry="2.9" fill="#18181b" />
+            <circle cx={cx - 10.5} cy={cy - 3} r="0.95" fill="#ffffff" />
+          </g>
 
-          {/* Right Sly Eye */}
-          <path
-            d={`M ${cx + 4} ${cy - 2} Q ${cx + 9.5} ${cy - 6.5} ${cx + 15} ${cy - 1}`}
-            stroke="#18181b"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            fill="none"
-          />
-          <path
-            d={`M ${cx + 15} ${cy - 1} L ${cx + 18} ${cy - 3}`}
-            stroke="#18181b"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
+          {/* Right Eye */}
+          <g transform={`rotate(12 ${cx + 9.5} ${cy - 2})`}>
+            <ellipse cx={cx + 9.5} cy={cy - 2} rx="4.2" ry="2.9" fill="#18181b" />
+            <circle cx={cx + 8.5} cy={cy - 3} r="0.95" fill="#ffffff" />
+          </g>
 
-          {/* Rosy Sly Cheeks */}
-          <ellipse cx={cx - 14} cy={cy + 4} rx="3.8" ry="2.2" fill="#fda4af" opacity="0.75" />
-          <ellipse cx={cx + 14} cy={cy + 4} rx="3.8" ry="2.2" fill="#fda4af" opacity="0.75" />
+          {/* Rosy Cheeks on White Fur */}
+          <ellipse cx={cx - 15} cy={cy + 5} rx="3.5" ry="2.2" fill="#fda4af" opacity="0.8" />
+          <ellipse cx={cx + 15} cy={cy + 5} rx="3.5" ry="2.2" fill="#fda4af" opacity="0.8" />
 
           {/* Sleek Black Fox Paws / Socks */}
           <ellipse cx={cx - 9} cy="118" rx="6" ry="4.5" fill="#18181b" />
