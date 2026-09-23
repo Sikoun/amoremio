@@ -144,145 +144,393 @@ export const AnimalFigure: React.FC<AnimalFigureProps> = ({
 
       {pet === 'lion' && (
         <g id={`${prefix}-lion`} className="transition-transform duration-300">
-          {/* Tail */}
+          {/* Dynamic Tail with Majestic Flame Brush Tuft */}
           <path
-            d={`M ${cx - 28 * flip} 110 Q ${cx - 48 * flip} 115 ${cx - 50 * flip} 95 Q ${cx - 52 * flip} 80 ${cx - 44 * flip} 75`}
+            d={`M ${cx - 24 * flip} 108 C ${cx - 44 * flip} 112 ${cx - 52 * flip} 95 ${cx - 42 * flip} 76`}
             stroke={palette.accent}
-            strokeWidth="5"
+            strokeWidth="4.5"
             strokeLinecap="round"
             fill="none"
           />
-          <circle cx={cx - 44 * flip} cy="74" r="6" fill={palette.accent} />
-
-          {/* Mane */}
-          <circle cx={cx} cy={cy} r="40" fill={`url(#${prefix}-maneGrad)`} />
-          {/* Body */}
-          <ellipse cx={cx + 2 * flip} cy={bodyY} rx="25" ry="23" fill={`url(#${prefix}-bodyGrad)`} />
-          <ellipse cx={cx + 4 * flip} cy={bodyY + 2} rx="15" ry="14" fill="#fef3c7" opacity="0.9" />
-
-          {/* Head */}
-          <circle cx={cx} cy={cy} r="28" fill={`url(#${prefix}-bodyGrad)`} />
-
-          {/* Ears */}
-          <circle cx={cx - 20 * flip} cy={cy - 20} r="9" fill={palette.secondary} />
-          <circle cx={cx - 20 * flip} cy={cy - 20} r="5" fill="#fef3c7" />
-          <circle cx={cx + 20 * flip} cy={cy - 20} r="9" fill={palette.secondary} />
-          <circle cx={cx + 20 * flip} cy={cy - 20} r="5" fill="#fef3c7" />
-
-          {/* Snout */}
-          <ellipse cx={cx} cy={cy + 5} rx="13" ry="9" fill="#fef3c7" />
-          <path d={`M ${cx - 4} ${cy - 1} L ${cx + 4} ${cy - 1} L ${cx} ${cy + 3} Z`} fill="#78350f" />
           <path
-            d={`M ${cx - 4} ${cy + 6} Q ${cx} ${cy + 10} ${cx + 4} ${cy + 6}`}
+            d={`M ${cx - 42 * flip} 76 C ${cx - 48 * flip} 70 ${cx - 47 * flip} 58 ${cx - 39 * flip} 56 C ${cx - 35 * flip} 64 ${cx - 33 * flip} 71 ${cx - 42 * flip} 76 Z`}
+            fill={palette.accent}
+          />
+          <path
+            d={`M ${cx - 41 * flip} 73 C ${cx - 45 * flip} 68 ${cx - 44 * flip} 60 ${cx - 39 * flip} 58 C ${cx - 36 * flip} 64 ${cx - 35 * flip} 69 ${cx - 41 * flip} 73 Z`}
+            fill={palette.secondary}
+            opacity="0.85"
+          />
+
+          {/* Sculpted Outer Mane with Dynamic Layered Locks */}
+          <path
+            d={`M ${cx} ${cy - 41} 
+                Q ${cx + 12} ${cy - 42} ${cx + 20} ${cy - 34} 
+                L ${cx + 26} ${cy - 38} 
+                Q ${cx + 28} ${cy - 24} ${cx + 36} ${cy - 18} 
+                L ${cx + 42} ${cy - 19} 
+                Q ${cx + 39} ${cy - 4} ${cx + 42} ${cy + 6} 
+                L ${cx + 45} ${cy + 11} 
+                Q ${cx + 37} ${cy + 20} ${cx + 33} ${cy + 26} 
+                L ${cx + 33} ${cy + 32} 
+                Q ${cx + 22} ${cy + 36} ${cx + 13} ${cy + 35} 
+                L ${cx + 7} ${cy + 40} 
+                Q ${cx} ${cy + 35} ${cx - 7} ${cy + 40} 
+                L ${cx - 13} ${cy + 35} 
+                Q ${cx - 22} ${cy + 36} ${cx - 33} ${cy + 32} 
+                L ${cx - 33} ${cy + 26} 
+                Q ${cx - 37} ${cy + 20} ${cx - 45} ${cy + 11} 
+                L ${cx - 42} ${cy + 6} 
+                Q ${cx - 39} ${cy - 4} ${cx - 42} ${cy - 19} 
+                L ${cx - 36} ${cy - 18} 
+                Q ${cx - 28} ${cy - 24} ${cx - 26} ${cy - 38} 
+                L ${cx - 20} ${cy - 34} 
+                Q ${cx - 12} ${cy - 42} ${cx} ${cy - 41} Z`}
+            fill={`url(#${prefix}-maneGrad)`}
+          />
+
+          {/* Inner Mane Volume Layer */}
+          <path
+            d={`M ${cx} ${cy - 33} 
+                Q ${cx + 16} ${cy - 31} ${cx + 26} ${cy - 17} 
+                Q ${cx + 34} ${cy} ${cx + 27} ${cy + 18} 
+                Q ${cx + 18} ${cy + 28} ${cx} ${cy + 30} 
+                Q ${cx - 18} ${cy + 28} ${cx - 27} ${cy + 18} 
+                Q ${cx - 34} ${cy} ${cx - 26} ${cy - 17} 
+                Q ${cx - 16} ${cy - 31} ${cx} ${cy - 33} Z`}
+            fill={palette.secondary}
+            opacity="0.6"
+          />
+
+          {/* Lion Body */}
+          <ellipse cx={cx + 2 * flip} cy={bodyY} rx="26" ry="24" fill={palette.primary} />
+          {/* Regal Golden Cream Chest / Tummy */}
+          <ellipse cx={cx + 3 * flip} cy={bodyY + 2} rx="16" ry="16" fill="#fef3c7" opacity="0.95" />
+          <path
+            d={`M ${cx - 9} ${bodyY - 9} Q ${cx} ${bodyY - 3} ${cx + 9} ${bodyY - 9} L ${cx + 11} ${bodyY + 13} Q ${cx} ${bodyY + 18} ${cx - 11} ${bodyY + 13} Z`}
+            fill="#ffffff"
+            opacity="0.5"
+          />
+
+          {/* Sculpted Feline Ears (Nestled Organically in Mane) */}
+          {/* Left Ear */}
+          <path
+            d={`M ${cx - 28} ${cy - 12} C ${cx - 31} ${cy - 26} ${cx - 20} ${cy - 32} ${cx - 13} ${cy - 22} C ${cx - 10} ${cy - 16} ${cx - 12} ${cy - 11} ${cx - 16} ${cy - 9} Z`}
+            fill={palette.primary}
+            stroke={palette.accent}
+            strokeWidth="1.2"
+          />
+          <path
+            d={`M ${cx - 25} ${cy - 14} C ${cx - 27} ${cy - 24} ${cx - 19} ${cy - 28} ${cx - 15} ${cy - 20} C ${cx - 13} ${cy - 16} ${cx - 15} ${cy - 12} ${cx - 18} ${cy - 11} Z`}
+            fill="#fef3c7"
+          />
+          <path
+            d={`M ${cx - 25} ${cy - 12} Q ${cx - 19} ${cy - 16} ${cx - 15} ${cy - 10}`}
+            stroke={palette.accent}
+            strokeWidth="1.1"
+            strokeLinecap="round"
+            fill="none"
+          />
+          <path
+            d={`M ${cx - 22} ${cy - 15} Q ${cx - 18} ${cy - 19} ${cx - 16} ${cy - 13}`}
+            stroke="#ffffff"
+            strokeWidth="1.1"
+            strokeLinecap="round"
+            opacity="0.75"
+            fill="none"
+          />
+
+          {/* Right Ear */}
+          <path
+            d={`M ${cx + 28} ${cy - 12} C ${cx + 31} ${cy - 26} ${cx + 20} ${cy - 32} ${cx + 13} ${cy - 22} C ${cx + 10} ${cy - 16} ${cx + 12} ${cy - 11} ${cx + 16} ${cy - 9} Z`}
+            fill={palette.primary}
+            stroke={palette.accent}
+            strokeWidth="1.2"
+          />
+          <path
+            d={`M ${cx + 25} ${cy - 14} C ${cx + 27} ${cy - 24} ${cx + 19} ${cy - 28} ${cx + 15} ${cy - 20} C ${cx + 13} ${cy - 16} ${cx + 15} ${cy - 12} ${cx + 18} ${cy - 11} Z`}
+            fill="#fef3c7"
+          />
+          <path
+            d={`M ${cx + 25} ${cy - 12} Q ${cx + 19} ${cy - 16} ${cx + 15} ${cy - 10}`}
+            stroke={palette.accent}
+            strokeWidth="1.1"
+            strokeLinecap="round"
+            fill="none"
+          />
+          <path
+            d={`M ${cx + 22} ${cy - 15} Q ${cx + 18} ${cy - 19} ${cx + 16} ${cy - 13}`}
+            stroke="#ffffff"
+            strokeWidth="1.1"
+            strokeLinecap="round"
+            opacity="0.75"
+            fill="none"
+          />
+
+          {/* Lion Head */}
+          <ellipse cx={cx} cy={cy} rx="24" ry="23" fill={palette.primary} />
+
+          {/* Forehead Mane Lock Crest */}
+          <path
+            d={`M ${cx - 5} ${cy - 21} Q ${cx} ${cy - 26} ${cx + 5} ${cy - 21} Q ${cx} ${cy - 16} ${cx - 5} ${cy - 21} Z`}
+            fill={palette.accent}
+          />
+
+          {/* Puffy Dual-Lobed Cream Muzzle */}
+          <ellipse cx={cx - 6} cy={cy + 7} rx="7.2" ry="5.8" fill="#fef3c7" />
+          <ellipse cx={cx + 6} cy={cy + 7} rx="7.2" ry="5.8" fill="#fef3c7" />
+
+          {/* Regal Terracotta Nose */}
+          <path
+            d={`M ${cx} ${cy + 6.5} L ${cx - 4.2} ${cy + 2.8} C ${cx - 3.5} ${cy + 1.8} ${cx + 3.5} ${cy + 1.8} ${cx + 4.2} ${cy + 2.8} Z`}
+            fill="#78350f"
+          />
+          <circle cx={cx - 1.2} cy={cy + 2.8} r="0.7" fill="#ffffff" opacity="0.6" />
+
+          {/* Mouth Cleft & Sweet Regal Smile */}
+          <line x1={cx} y1={cy + 6.5} x2={cx} y2={cy + 9} stroke="#78350f" strokeWidth="1.4" strokeLinecap="round" />
+          <path
+            d={`M ${cx - 4.8} ${cy + 8.8} Q ${cx - 2.4} ${cy + 11.5} ${cx} ${cy + 9.2} Q ${cx + 2.4} ${cy + 11.5} ${cx + 4.8} ${cy + 8.8}`}
             stroke="#78350f"
-            strokeWidth="1.8"
+            strokeWidth="1.4"
             strokeLinecap="round"
             fill="none"
           />
 
-          {/* Eyes */}
+          {/* Whisker Freckle Dots */}
+          <circle cx={cx - 8} cy={cy + 6} r="0.7" fill="#78350f" opacity="0.5" />
+          <circle cx={cx - 10} cy={cy + 7.8} r="0.7" fill="#78350f" opacity="0.5" />
+          <circle cx={cx + 8} cy={cy + 6} r="0.7" fill="#78350f" opacity="0.5" />
+          <circle cx={cx + 10} cy={cy + 7.8} r="0.7" fill="#78350f" opacity="0.5" />
+
+          {/* Lion Chin Beard Tuft */}
           <path
-            d={`M ${cx - 12} ${cy - 5} Q ${cx - 8} ${cy - 10} ${cx - 4} ${cy - 5}`}
-            stroke="#451a03"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            fill="none"
+            d={`M ${cx - 3.5} ${cy + 11.8} Q ${cx} ${cy + 16} ${cx + 3.5} ${cy + 11.8} Z`}
+            fill="#fef3c7"
+            stroke={palette.secondary}
+            strokeWidth="0.7"
           />
+
+          {/* Regal Almond Feline Eyes */}
+          {/* Left Eye */}
           <path
-            d={`M ${cx + 4} ${cy - 5} Q ${cx + 8} ${cy - 10} ${cx + 12} ${cy - 5}`}
+            d={`M ${cx - 14} ${cy - 2} C ${cx - 12} ${cy - 7} ${cx - 6} ${cy - 7} ${cx - 4} ${cy - 2}`}
             stroke="#451a03"
-            strokeWidth="2.5"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            fill="none"
+          />
+          <ellipse cx={cx - 9} cy={cy - 2} rx="3.4" ry="4.2" fill="#b45309" />
+          <ellipse cx={cx - 9} cy={cy - 1.8} rx="2.5" ry="3.2" fill="#291809" />
+          <circle cx={cx - 10.2} cy={cy - 3.4} r="1.3" fill="#ffffff" />
+          <circle cx={cx - 7.8} cy={cy - 0.8} r="0.7" fill="#ffffff" />
+          {/* Left Eyebrow */}
+          <path
+            d={`M ${cx - 13} ${cy - 8} Q ${cx - 9} ${cy - 11} ${cx - 5} ${cy - 8.5}`}
+            stroke={palette.accent}
+            strokeWidth="1.5"
             strokeLinecap="round"
             fill="none"
           />
 
-          {/* Cheeks */}
-          <ellipse cx={cx - 14} cy={cy + 1} rx="4.5" ry="3" fill="#fda4af" opacity="0.85" />
-          <ellipse cx={cx + 14} cy={cy + 1} rx="4.5" ry="3" fill="#fda4af" opacity="0.85" />
+          {/* Right Eye */}
+          <path
+            d={`M ${cx + 4} ${cy - 2} C ${cx + 6} ${cy - 7} ${cx + 12} ${cy - 7} ${cx + 14} ${cy - 2}`}
+            stroke="#451a03"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            fill="none"
+          />
+          <ellipse cx={cx + 9} cy={cy - 2} rx="3.4" ry="4.2" fill="#b45309" />
+          <ellipse cx={cx + 9} cy={cy - 1.8} rx="2.5" ry="3.2" fill="#291809" />
+          <circle cx={cx + 7.8} cy={cy - 3.4} r="1.3" fill="#ffffff" />
+          <circle cx={cx + 10.2} cy={cy - 0.8} r="0.7" fill="#ffffff" />
+          {/* Right Eyebrow */}
+          <path
+            d={`M ${cx + 5} ${cy - 8.5} Q ${cx + 9} ${cy - 11} ${cx + 13} ${cy - 8}`}
+            stroke={palette.accent}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            fill="none"
+          />
 
-          {/* Paws */}
-          <ellipse cx={cx - 10} cy="118" rx="7" ry="5.5" fill={palette.accent} />
-          <ellipse cx={cx + 10} cy="118" rx="7" ry="5.5" fill={palette.accent} />
+          {/* Soft Rosy Cheeks */}
+          <ellipse cx={cx - 16} cy={cy + 4} rx="4.2" ry="2.8" fill="#fda4af" opacity="0.8" />
+          <ellipse cx={cx + 16} cy={cy + 4} rx="4.2" ry="2.8" fill="#fda4af" opacity="0.8" />
+
+          {/* Regal Lion Paws */}
+          <ellipse cx={cx - 10} cy="118" rx="7.5" ry="5.5" fill={palette.primary} stroke={palette.secondary} strokeWidth="1" />
+          <ellipse cx={cx - 10} cy="118.5" rx="3.8" ry="2.8" fill="#fef3c7" />
+          <ellipse cx={cx + 10} cy="118" rx="7.5" ry="5.5" fill={palette.primary} stroke={palette.secondary} strokeWidth="1" />
+          <ellipse cx={cx + 10} cy="118.5" rx="3.8" ry="2.8" fill="#fef3c7" />
         </g>
       )}
 
       {pet === 'bear' && (
         <g id={`${prefix}-bear`} className="transition-transform duration-300">
-          {/* Bear Body */}
-          <ellipse cx={cx} cy={bodyY} rx="26" ry="24" fill={palette.primary} />
-          {/* Cozy Plush Tummy Patch */}
-          <ellipse cx={cx} cy={bodyY + 2} rx="16" ry="16" fill={palette.secondary} />
-          {/* Subtle belly fluff shading */}
+          {/* Broad Cozy Gentle Giant Body */}
+          <ellipse cx={cx} cy={bodyY} rx="28" ry="25" fill={palette.primary} />
+          {/* Warm Hearth Chest & Tummy */}
+          <ellipse cx={cx} cy={bodyY + 2} rx="17" ry="17" fill={palette.secondary} />
+          {/* Scruffy Chest Fur Fluff */}
           <path
-            d={`M ${cx - 10} ${bodyY - 10} Q ${cx} ${bodyY - 4} ${cx + 10} ${bodyY - 10} L ${cx + 12} ${bodyY + 12} Q ${cx} ${bodyY + 18} ${cx - 12} ${bodyY + 12} Z`}
+            d={`M ${cx - 11} ${bodyY - 11} Q ${cx} ${bodyY - 4} ${cx + 11} ${bodyY - 11} L ${cx + 13} ${bodyY + 13} Q ${cx} ${bodyY + 19} ${cx - 13} ${bodyY + 13} Z`}
             fill={palette.secondary}
             opacity="0.9"
           />
 
-          {/* Cupped Plush Teddy Ears */}
+          {/* Furry Mountain Bear Ears (Stout & Nestled) */}
           {/* Left Ear */}
-          <circle cx={cx - 20} cy={cy - 20} r="11" fill={palette.primary} stroke={palette.accent} strokeWidth="0.8" />
-          <circle cx={cx - 20} cy={cy - 20} r="6.5" fill={palette.secondary} />
-          <path d={`M ${cx - 22} ${cy - 21} Q ${cx - 20} ${cy - 24} ${cx - 18} ${cy - 21}`} stroke={palette.accent} strokeWidth="0.8" strokeLinecap="round" opacity="0.6" fill="none" />
+          <ellipse cx={cx - 20} cy={cy - 18} rx="9.5" ry="8.5" fill={palette.primary} stroke={palette.accent} strokeWidth="1" />
+          <ellipse cx={cx - 20} cy={cy - 18} rx="5.5" ry="5" fill={palette.secondary} />
+          <path d={`M ${cx - 23} ${cy - 17} Q ${cx - 20} ${cy - 20} ${cx - 17} ${cy - 17}`} stroke={palette.accent} strokeWidth="1" strokeLinecap="round" opacity="0.7" fill="none" />
 
           {/* Right Ear */}
-          <circle cx={cx + 20} cy={cy - 20} r="11" fill={palette.primary} stroke={palette.accent} strokeWidth="0.8" />
-          <circle cx={cx + 20} cy={cy - 20} r="6.5" fill={palette.secondary} />
-          <path d={`M ${cx + 18} ${cy - 21} Q ${cx + 20} ${cy - 24} ${cx + 22} ${cy - 21}`} stroke={palette.accent} strokeWidth="0.8" strokeLinecap="round" opacity="0.6" fill="none" />
+          <ellipse cx={cx + 20} cy={cy - 18} rx="9.5" ry="8.5" fill={palette.primary} stroke={palette.accent} strokeWidth="1" />
+          <ellipse cx={cx + 20} cy={cy - 18} rx="5.5" ry="5" fill={palette.secondary} />
+          <path d={`M ${cx + 17} ${cy - 17} Q ${cx + 20} ${cy - 20} ${cx + 23} ${cy - 17}`} stroke={palette.accent} strokeWidth="1" strokeLinecap="round" opacity="0.7" fill="none" />
 
-          {/* Bear Head with Chubby Teddy Cheeks */}
+          {/* Broad Cozy Head with Scruffy Beard / Cheek Tufts (Hagrid Silhouette) */}
           <path
-            d={`M ${cx - 24} ${cy + 12} C ${cx - 30} ${cy + 4} ${cx - 30} ${cy - 12} ${cx - 22} ${cy - 24} C ${cx - 12} ${cy - 28} ${cx + 12} ${cy - 28} ${cx + 22} ${cy - 24} C ${cx + 30} ${cy - 12} ${cx + 30} ${cy + 4} ${cx + 24} ${cy + 12} C ${cx + 18} ${cy + 24} ${cx - 18} ${cy + 24} ${cx - 24} ${cy + 12} Z`}
+            d={`M ${cx - 24} ${cy - 17} 
+                C ${cx - 14} ${cy - 23} ${cx + 14} ${cy - 23} ${cx + 24} ${cy - 17} 
+                C ${cx + 29} ${cy - 7} ${cx + 28} ${cy + 3} ${cx + 26} ${cy + 8} 
+                L ${cx + 31} ${cy + 13} 
+                L ${cx + 25} ${cy + 16} 
+                L ${cx + 28} ${cy + 21} 
+                Q ${cx + 16} ${cy + 27} ${cx} ${cy + 28} 
+                Q ${cx - 16} ${cy + 27} ${cx - 28} ${cy + 21} 
+                L ${cx - 25} ${cy + 16} 
+                L ${cx - 31} ${cy + 13} 
+                L ${cx - 26} ${cy + 8} 
+                C ${cx - 28} ${cy + 3} ${cx - 29} ${cy - 7} ${cx - 24} ${cy - 17} Z`}
             fill={palette.primary}
           />
-
-          {/* Plush Teddy Snout / Muzzle */}
-          <ellipse cx={cx} cy={cy + 7} rx="14" ry="10" fill={palette.secondary} />
-
-          {/* Shiny Dark Chocolate Button Nose */}
+          {/* Cozy Chin Beard Scruff Details */}
           <path
-            d={`M ${cx - 5.5} ${cy + 3} C ${cx - 6} ${cy + 1} ${cx - 3} ${cy} ${cx} ${cy} C ${cx + 3} ${cy} ${cx + 6} ${cy + 1} ${cx + 5.5} ${cy + 3} C ${cx + 4} ${cy + 7} ${cx} ${cy + 8} ${cx} ${cy + 8} C ${cx} ${cy + 8} ${cx - 4} ${cy + 7} ${cx - 5.5} ${cy + 3} Z`}
-            fill="#451a03"
+            d={`M ${cx - 12} ${cy + 22} Q ${cx} ${cy + 26} ${cx + 12} ${cy + 22}`}
+            stroke={palette.accent}
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            opacity="0.5"
+            fill="none"
           />
-          <circle cx={cx - 1.8} cy={cy + 2.2} r="1.1" fill="#ffffff" />
-
-          {/* Teddy Smile */}
           <path
-            d={`M ${cx - 5} ${cy + 9.5} Q ${cx - 2.5} ${cy + 13} ${cx} ${cy + 10.5} Q ${cx + 2.5} ${cy + 13} ${cx + 5} ${cy + 9.5}`}
+            d={`M ${cx - 6} ${cy + 24} Q ${cx} ${cy + 27} ${cx + 6} ${cy + 24}`}
+            stroke={palette.accent}
+            strokeWidth="1"
+            strokeLinecap="round"
+            opacity="0.5"
+            fill="none"
+          />
+
+          {/* Broad Sturdy Muzzle */}
+          <ellipse cx={cx} cy={cy + 7} rx="15" ry="10.5" fill={palette.secondary} />
+
+          {/* Broad Leathery Dark Bear Nose */}
+          <path
+            d={`M ${cx - 6} ${cy + 3} C ${cx - 7} ${cy + 1} ${cx + 7} ${cy + 1} ${cx + 6} ${cy + 3} C ${cx + 4.5} ${cy + 8} ${cx} ${cy + 8.5} ${cx - 4.5} ${cy + 8} Z`}
+            fill="#291809"
+          />
+          {/* Leathery Nose Top Sheen */}
+          <path
+            d={`M ${cx - 3.5} ${cy + 2.8} Q ${cx} ${cy + 2} ${cx + 3.5} ${cy + 2.8}`}
+            stroke="#ffffff"
+            strokeWidth="0.9"
+            strokeLinecap="round"
+            opacity="0.45"
+            fill="none"
+          />
+
+          {/* Gentle Giant Reassuring Smile */}
+          <line x1={cx} y1={cy + 8.5} x2={cx} y2={cy + 11.5} stroke="#451a03" strokeWidth="1.6" />
+          <path
+            d={`M ${cx - 6} ${cy + 10.5} Q ${cx - 3} ${cy + 14} ${cx} ${cy + 11.5} Q ${cx + 3} ${cy + 14} ${cx + 6} ${cy + 10.5}`}
             stroke="#451a03"
-            strokeWidth="1.6"
+            strokeWidth="1.7"
             strokeLinecap="round"
             fill="none"
           />
-          <line x1={cx} y1={cy + 8} x2={cx} y2={cy + 10.5} stroke="#451a03" strokeWidth="1.4" />
 
-          {/* Big Warm Teddy Eyes with Double Catchlights */}
-          <ellipse cx={cx - 10} cy={cy - 2} rx="4.5" ry="5.2" fill="#451a03" />
-          <ellipse cx={cx - 10} cy={cy - 1} rx="3.5" ry="3.8" fill="#78350f" opacity="0.4" />
-          <circle cx={cx - 11.5} cy={cy - 4} r="1.8" fill="#ffffff" />
-          <circle cx={cx - 8.5} cy={cy} r="1" fill="#ffffff" />
+          {/* Honest Whisker Freckles */}
+          <circle cx={cx - 9.5} cy={cy + 7.5} r="0.8" fill="#78350f" opacity="0.5" />
+          <circle cx={cx + 9.5} cy={cy + 7.5} r="0.8" fill="#78350f" opacity="0.5" />
 
-          <ellipse cx={cx + 10} cy={cy - 2} rx="4.5" ry="5.2" fill="#451a03" />
-          <ellipse cx={cx + 10} cy={cy - 1} rx="3.5" ry="3.8" fill="#78350f" opacity="0.4" />
-          <circle cx={cx + 8.5} cy={cy - 4} r="1.8" fill="#ffffff" />
-          <circle cx={cx + 11.5} cy={cy} r="1" fill="#ffffff" />
+          {/* Warm Soulful Eyes (Gentle Giant / Hagrid Vibe - No Anime Eyes) */}
+          {/* Left Warm Eye */}
+          <path
+            d={`M ${cx - 14} ${cy - 1} C ${cx - 13} ${cy - 5} ${cx - 7} ${cy - 5} ${cx - 6} ${cy - 1}`}
+            stroke="#291809"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            fill="none"
+          />
+          <ellipse cx={cx - 10} cy={cy - 1} rx="3.2" ry="3.5" fill="#291809" />
+          {/* Friendly Smile Crinkle */}
+          <path
+            d={`M ${cx - 14} ${cy} Q ${cx - 16} ${cy - 1} ${cx - 15} ${cy - 3}`}
+            stroke="#78350f"
+            strokeWidth="0.9"
+            strokeLinecap="round"
+            opacity="0.6"
+            fill="none"
+          />
+          {/* Single Warm Pin-Glint */}
+          <circle cx={cx - 10.8} cy={cy - 2.2} r="0.9" fill="#ffffff" />
+          {/* Bushy Warm Eyebrow */}
+          <path
+            d={`M ${cx - 15} ${cy - 7} Q ${cx - 10} ${cy - 11} ${cx - 5} ${cy - 8.5}`}
+            stroke="#451a03"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            fill="none"
+          />
 
-          {/* Rosy Cheeks */}
-          <ellipse cx={cx - 16} cy={cy + 5} rx="4.5" ry="3.2" fill="#fda4af" opacity="0.85" />
-          <ellipse cx={cx + 16} cy={cy + 5} rx="4.5" ry="3.2" fill="#fda4af" opacity="0.85" />
+          {/* Right Warm Eye */}
+          <path
+            d={`M ${cx + 6} ${cy - 1} C ${cx + 7} ${cy - 5} ${cx + 13} ${cy - 5} ${cx + 14} ${cy - 1}`}
+            stroke="#291809"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            fill="none"
+          />
+          <ellipse cx={cx + 10} cy={cy - 1} rx="3.2" ry="3.5" fill="#291809" />
+          {/* Friendly Smile Crinkle */}
+          <path
+            d={`M ${cx + 14} ${cy} Q ${cx + 16} ${cy - 1} ${cx + 15} ${cy - 3}`}
+            stroke="#78350f"
+            strokeWidth="0.9"
+            strokeLinecap="round"
+            opacity="0.6"
+            fill="none"
+          />
+          {/* Single Warm Pin-Glint */}
+          <circle cx={cx + 9.2} cy={cy - 2.2} r="0.9" fill="#ffffff" />
+          {/* Bushy Warm Eyebrow */}
+          <path
+            d={`M ${cx + 5} ${cy - 8.5} Q ${cx + 10} ${cy - 11} ${cx + 15} ${cy - 7}`}
+            stroke="#451a03"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            fill="none"
+          />
 
-          {/* Plush Teddy Paws with Cute Contrast Bean Pads! */}
-          <ellipse cx={cx - 11} cy="118" rx="8" ry="6" fill={palette.primary} stroke={palette.accent} strokeWidth="0.8" />
-          <ellipse cx={cx - 11} cy="118.5" rx="4.2" ry="3.2" fill={palette.secondary} />
-          <circle cx={cx - 14} cy="115.5" r="1.3" fill={palette.secondary} />
-          <circle cx={cx - 11} cy="114.5" r="1.4" fill={palette.secondary} />
-          <circle cx={cx - 8} cy="115.5" r="1.3" fill={palette.secondary} />
+          {/* Warm Hearth Cheeks */}
+          <ellipse cx={cx - 16} cy={cy + 5} rx="4" ry="2.8" fill="#fda4af" opacity="0.75" />
+          <ellipse cx={cx + 16} cy={cy + 5} rx="4" ry="2.8" fill="#fda4af" opacity="0.75" />
 
-          <ellipse cx={cx + 11} cy="118" rx="8" ry="6" fill={palette.primary} stroke={palette.accent} strokeWidth="0.8" />
-          <ellipse cx={cx + 11} cy="118.5" rx="4.2" ry="3.2" fill={palette.secondary} />
-          <circle cx={cx + 8} cy="115.5" r="1.3" fill={palette.secondary} />
-          <circle cx={cx + 11} cy="114.5" r="1.4" fill={palette.secondary} />
-          <circle cx={cx + 14} cy="115.5" r="1.3" fill={palette.secondary} />
+          {/* Protective Gentle Giant Paws */}
+          <ellipse cx={cx - 11} cy="118" rx="8.5" ry="6" fill={palette.primary} stroke={palette.accent} strokeWidth="1" />
+          <ellipse cx={cx - 11} cy="118.5" rx="4.5" ry="3.2" fill={palette.accent} />
+          <circle cx={cx - 15} cy="115.5" r="1.4" fill={palette.accent} />
+          <circle cx={cx - 11} cy="114" r="1.5" fill={palette.accent} />
+          <circle cx={cx - 7} cy="115.5" r="1.4" fill={palette.accent} />
+
+          <ellipse cx={cx + 11} cy="118" rx="8.5" ry="6" fill={palette.primary} stroke={palette.accent} strokeWidth="1" />
+          <ellipse cx={cx + 11} cy="118.5" rx="4.5" ry="3.2" fill={palette.accent} />
+          <circle cx={cx + 7} cy="115.5" r="1.4" fill={palette.accent} />
+          <circle cx={cx + 11} cy="114" r="1.5" fill={palette.accent} />
+          <circle cx={cx + 15} cy="115.5" r="1.4" fill={palette.accent} />
         </g>
       )}
 
