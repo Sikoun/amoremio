@@ -36,3 +36,4 @@ next-env.d.ts
 # local couple data & personal notes
 /data/
 .env*
+!.env.example
