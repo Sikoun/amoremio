@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, text, integer, uniqueIndex } from 'drizzle-orm/sqlite-core';
 import type { PetCustomization } from '@/lib/types';
 
 // 1. Core Settings & Couple State (persistent settings, pets, moods, push tokens)
@@ -48,7 +48,9 @@ export const answers = sqliteTable('answers', {
   partnerId: text('partner_id').notNull(), // 'partner1' | 'partner2'
   answerText: text('answer_text').notNull(),
   answeredAt: text('answered_at').notNull(),
-});
+}, (table) => ({
+  datePartnerUnique: uniqueIndex('answers_date_partner_unique').on(table.questionDate, table.partnerId),
+}));
 
 // 4. Pokes / Love Ping History
 export const pokes = sqliteTable('pokes', {

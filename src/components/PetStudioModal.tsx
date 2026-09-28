@@ -16,6 +16,7 @@ import {
 import { SinglePetPreview } from './graphics/CoupleMascot';
 import { haptic } from '@/lib/haptics';
 import { X, Check, Sparkles, RefreshCw, Heart } from 'lucide-react';
+import { postState } from '@/lib/api';
 
 interface PetStudioModalProps {
   isOpen: boolean;
@@ -222,26 +223,18 @@ export const PetStudioModal: React.FC<PetStudioModalProps> = ({
     haptic.celebration();
     setIsSaving(true);
     try {
-      const res = await fetch('/api/state', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          partner1CustomPet: p1Custom,
-          partner2CustomPet: p2Custom,
-          partner1Pet: p1Custom.species,
-          partner2Pet: p2Custom.species,
-        }),
+      const updated = await postState('/api/state', {
+        partner1CustomPet: p1Custom,
+        partner2CustomPet: p2Custom,
+        partner1Pet: p1Custom.species,
+        partner2Pet: p2Custom.species,
       });
-
-      if (res.ok) {
-        const updated = await res.json();
-        onStateUpdated(updated);
-        setSaveSuccess(true);
-        setTimeout(() => {
-          setSaveSuccess(false);
-          onClose();
-        }, 1000);
-      }
+      onStateUpdated(updated);
+      setSaveSuccess(true);
+      setTimeout(() => {
+        setSaveSuccess(false);
+        onClose();
+      }, 1000);
     } catch (err) {
       console.error('Failed to save pet customization:', err);
     } finally {

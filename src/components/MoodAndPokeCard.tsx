@@ -5,6 +5,7 @@ import { PartnerId, CoupleData } from '@/lib/types';
 import { Heart, Send, Sparkles, MessageCircleHeart, Plus, Smile } from 'lucide-react';
 import { useFloatingReactions } from './graphics/FloatingReactions';
 import { haptic } from '@/lib/haptics';
+import { postState } from '@/lib/api';
 
 interface MoodAndPokeCardProps {
   currentPartner: PartnerId;
@@ -56,23 +57,11 @@ export const MoodAndPokeCard: React.FC<MoodAndPokeCardProps> = ({
     haptic.lightTap();
     setIsUpdatingMood(true);
     try {
-      const res = await fetch('/api/mood', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          partnerId: currentPartner,
-          mood: label,
-          moodEmoji: emoji,
-        }),
-      });
-
-      if (res.ok) {
-        const updated = await res.json();
-        onStateUpdated(updated);
-        triggerFloatingReaction(emoji, 6);
-        setShowCustomMoodInput(false);
-        setCustomMood('');
-      }
+      const updated = await postState('/api/mood', { mood: label, moodEmoji: emoji });
+      onStateUpdated(updated);
+      triggerFloatingReaction(emoji, 6);
+      setShowCustomMoodInput(false);
+      setCustomMood('');
     } catch (err) {
       console.error('Failed to update mood:', err);
     } finally {
@@ -91,24 +80,12 @@ export const MoodAndPokeCard: React.FC<MoodAndPokeCardProps> = ({
     }
 
     try {
-      const res = await fetch('/api/poke', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          fromPartnerId: currentPartner,
-          emoji,
-          message,
-        }),
-      });
-
-      if (res.ok) {
-        const updated = await res.json();
-        onStateUpdated(updated);
-        setPokeSentNotification(`${emoji} ${message}`);
-        setShowCustomPokeInput(false);
-        setCustomPokeMessage('');
-        setTimeout(() => setPokeSentNotification(null), 3000);
-      }
+      const updated = await postState('/api/poke', { emoji, message });
+      onStateUpdated(updated);
+      setPokeSentNotification(`${emoji} ${message}`);
+      setShowCustomPokeInput(false);
+      setCustomPokeMessage('');
+      setTimeout(() => setPokeSentNotification(null), 3000);
     } catch (err) {
       console.error('Failed to send poke:', err);
     } finally {

@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { PartnerId, CoupleData } from '@/lib/types';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { CoupleData } from '@/lib/types';
+import { ERROR_EVENT, UNPAIRED_EVENT } from '@/lib/api';
+import { PairingScreen } from '@/components/PairingScreen';
 import { Header } from '@/components/Header';
 import { AnniversaryCard } from '@/components/AnniversaryCard';
 import { DailyQuestionCard } from '@/components/DailyQuestionCard';
@@ -13,13 +14,14 @@ import { PetStudioModal } from '@/components/PetStudioModal';
 import { InstallGuideModal } from '@/components/InstallGuideModal';
 import { ReactionProvider } from '@/components/graphics/FloatingReactions';
 import { CoupleMascot } from '@/components/graphics/CoupleMascot';
-import { Heart, Sparkles, RefreshCw } from 'lucide-react';
+import { Heart, RefreshCw } from 'lucide-react';
 
-function AmoreMioContent() {
-  const searchParams = useSearchParams();
-  const [currentPartner, setCurrentPartner] = useState<PartnerId>('partner1');
+export default function Home() {
   const [coupleState, setCoupleState] = useState<CoupleData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [needsPairing, setNeedsPairing] = useState(false);
+  const [loadError, setLoadError] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
 
   // Modals
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
@@ -28,34 +30,73 @@ function AmoreMioContent() {
   const [isInstallModalOpen, setIsInstallModalOpen] = useState(false);
   const [isStandalone, setIsStandalone] = useState(true); // default true to avoid flash
 
-  // Initialize partner from query params or localStorage
-  useEffect(() => {
-    const pParam = searchParams.get('partner');
-    if (pParam === 'partner2' || pParam === 'her' || pParam === 'them' || pParam === 'p2') {
-      setCurrentPartner('partner2');
-    } else if (pParam === 'partner1' || pParam === 'me' || pParam === 'p1') {
-      setCurrentPartner('partner1');
-    } else {
-      const saved = localStorage.getItem('amoremio_partner');
-      if (saved === 'partner1' || saved === 'partner2') {
-        setCurrentPartner(saved);
-      }
-    }
-  }, [searchParams]);
+  // Bumped whenever an action (answer, mood, poke…) returns fresh state, so a background
+  // refresh that started before it can't overwrite the newer data when it lands later.
+  const stateVersion = useRef(0);
+  const applyState = useCallback((newState: CoupleData) => {
+    stateVersion.current++;
+    setCoupleState(newState);
+  }, []);
 
-  const fetchState = async () => {
+  const fetchState = useCallback(async () => {
+    const versionAtStart = stateVersion.current;
     try {
-      const res = await fetch('/api/state');
-      if (res.ok) {
+      const res = await fetch('/api/state', { cache: 'no-store' });
+      if (res.status === 401) {
+        setNeedsPairing(true);
+      } else if (res.ok) {
         const data = await res.json();
-        setCoupleState(data);
+        if (versionAtStart === stateVersion.current) setCoupleState(data);
+        setNeedsPairing(false);
+        setLoadError(false);
+      } else {
+        setLoadError(true);
       }
     } catch (err) {
       console.error('Failed to load couple state:', err);
+      setLoadError(true);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
+
+  // Any API call can report "not paired" or an error; handle both here
+  useEffect(() => {
+    let toastTimer: ReturnType<typeof setTimeout> | undefined;
+    const handleUnpaired = () => setNeedsPairing(true);
+    const handleError = (e: Event) => {
+      setToast((e as CustomEvent<string>).detail);
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => setToast(null), 4000);
+    };
+    window.addEventListener(UNPAIRED_EVENT, handleUnpaired);
+    window.addEventListener(ERROR_EVENT, handleError);
+    return () => {
+      window.removeEventListener(UNPAIRED_EVENT, handleUnpaired);
+      window.removeEventListener(ERROR_EVENT, handleError);
+      clearTimeout(toastTimer);
+    };
+  }, []);
+
+  // Keep in sync with the other phone: refresh when the app comes back to the foreground
+  // (iOS resumes home-screen apps without reloading) and poll gently while it's open.
+  const isReady = Boolean(coupleState) && !needsPairing;
+  useEffect(() => {
+    if (!isReady) return;
+    const refreshIfVisible = () => {
+      if (document.visibilityState === 'visible') fetchState();
+    };
+    const interval = setInterval(refreshIfVisible, 30_000);
+    document.addEventListener('visibilitychange', refreshIfVisible);
+    window.addEventListener('focus', refreshIfVisible);
+    window.addEventListener('pageshow', refreshIfVisible);
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', refreshIfVisible);
+      window.removeEventListener('focus', refreshIfVisible);
+      window.removeEventListener('pageshow', refreshIfVisible);
+    };
+  }, [isReady, fetchState]);
 
   const [installPrompt, setInstallPrompt] = useState<any>(null);
 
@@ -85,7 +126,7 @@ function AmoreMioContent() {
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
     return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
-  }, []);
+  }, [fetchState]);
 
   const handleInstallApp = async () => {
     if (!installPrompt) {
@@ -100,10 +141,46 @@ function AmoreMioContent() {
     }
   };
 
-  const handleSwitchPartner = (newPartner: PartnerId) => {
-    setCurrentPartner(newPartner);
-    localStorage.setItem('amoremio_partner', newPartner);
-  };
+  if (needsPairing) {
+    return (
+      <>
+        <PairingScreen
+          isStandalone={isStandalone}
+          onOpenInstallGuide={() => setIsInstallModalOpen(true)}
+          onPaired={() => {
+            setIsLoading(true);
+            fetchState();
+          }}
+        />
+        <InstallGuideModal
+          isOpen={isInstallModalOpen}
+          onClose={() => setIsInstallModalOpen(false)}
+          deferredPrompt={installPrompt}
+          onInstalled={() => setIsStandalone(true)}
+        />
+      </>
+    );
+  }
+
+  if (!isLoading && !coupleState && loadError) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center text-center p-6 space-y-3">
+        <p className="text-3xl">🥺</p>
+        <p className="text-sm font-semibold text-rose-700">Couldn&apos;t open Amore Mio right now.</p>
+        <p className="text-xs text-rose-500">Check your connection and try again.</p>
+        <button
+          onClick={() => {
+            setIsLoading(true);
+            fetchState();
+          }}
+          className="mt-2 bg-rose-500 hover:bg-rose-600 text-white font-semibold text-sm px-4 py-2 rounded-xl shadow-md active:scale-95 transition flex items-center gap-1.5"
+        >
+          <RefreshCw className="w-4 h-4" />
+          <span>Try again</span>
+        </button>
+      </div>
+    );
+  }
 
   if (isLoading || !coupleState) {
     return (
@@ -116,13 +193,19 @@ function AmoreMioContent() {
     );
   }
 
+  const currentPartner = coupleState.me ?? 'partner1';
+
   return (
     <ReactionProvider>
       <div className="flex flex-col min-h-screen pb-safe">
-        {/* Top Header with Partner Switcher */}
+        {/* Error toast */}
+        {toast && (
+          <div className="fixed top-4 inset-x-4 z-[60] max-w-md mx-auto bg-rose-950 text-white text-xs font-semibold rounded-2xl px-4 py-3 shadow-lg text-center">
+            {toast}
+          </div>
+        )}
+
         <Header
-          currentPartner={currentPartner}
-          onSwitchPartner={handleSwitchPartner}
           coupleState={coupleState}
           onOpenHistory={() => setIsHistoryModalOpen(true)}
           onOpenSettings={() => setIsSettingsModalOpen(true)}
@@ -178,14 +261,14 @@ function AmoreMioContent() {
         <DailyQuestionCard
           currentPartner={currentPartner}
           coupleState={coupleState}
-          onAnswerSubmitted={(newState) => setCoupleState(newState)}
+          onAnswerSubmitted={applyState}
         />
 
         {/* Mood Tracker & Love Pings */}
         <MoodAndPokeCard
           currentPartner={currentPartner}
           coupleState={coupleState}
-          onStateUpdated={(newState) => setCoupleState(newState)}
+          onStateUpdated={applyState}
         />
 
         {/* Modals */}
@@ -194,14 +277,14 @@ function AmoreMioContent() {
           onClose={() => setIsPetStudioOpen(false)}
           coupleState={coupleState}
           initialPartner={currentPartner}
-          onStateUpdated={(newState) => setCoupleState(newState)}
+          onStateUpdated={applyState}
         />
 
         <SettingsModal
           isOpen={isSettingsModalOpen}
           onClose={() => setIsSettingsModalOpen(false)}
           coupleState={coupleState}
-          onStateUpdated={(newState) => setCoupleState(newState)}
+          onStateUpdated={applyState}
           onOpenPetStudio={() => {
             setIsSettingsModalOpen(false);
             setIsPetStudioOpen(true);
@@ -226,19 +309,5 @@ function AmoreMioContent() {
         />
       </div>
     </ReactionProvider>
-  );
-}
-
-export default function Home() {
-  return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          <RefreshCw className="w-6 h-6 text-rose-400 animate-spin" />
-        </div>
-      }
-    >
-      <AmoreMioContent />
-    </Suspense>
   );
 }

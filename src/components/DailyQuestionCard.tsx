@@ -7,6 +7,7 @@ import confetti from 'canvas-confetti';
 import { LoveEnvelope } from './graphics/LoveEnvelope';
 import { useFloatingReactions } from './graphics/FloatingReactions';
 import { haptic } from '@/lib/haptics';
+import { postState } from '@/lib/api';
 
 interface DailyQuestionCardProps {
   currentPartner: PartnerId;
@@ -30,7 +31,7 @@ export const DailyQuestionCard: React.FC<DailyQuestionCardProps> = ({
   const partner = coupleState[partnerId];
 
   // Get today's question
-  const todayKey = Object.keys(coupleState.dailyQuestions).sort().reverse()[0] || 'today';
+  const todayKey = coupleState.todayKey;
   const question: Question | undefined = coupleState.dailyQuestions[todayKey];
   const answers = coupleState.answers[todayKey];
 
@@ -67,22 +68,13 @@ export const DailyQuestionCard: React.FC<DailyQuestionCardProps> = ({
     haptic.heartbeat();
     setIsSubmitting(true);
     try {
-      const res = await fetch('/api/answer', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          partnerId: currentPartner,
-          answerText: answerInput.trim(),
-          date: todayKey,
-        }),
+      const updated = await postState('/api/answer', {
+        answerText: answerInput.trim(),
+        date: todayKey,
       });
-
-      if (res.ok) {
-        const updated = await res.json();
-        setAnswerInput('');
-        triggerFloatingReaction('💌', 5);
-        onAnswerSubmitted(updated);
-      }
+      setAnswerInput('');
+      triggerFloatingReaction('💌', 5);
+      onAnswerSubmitted(updated);
     } catch (err) {
       console.error('Failed to submit answer:', err);
     } finally {

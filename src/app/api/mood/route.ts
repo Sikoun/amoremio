@@ -1,20 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { updateMood } from '@/lib/storage';
-import { PartnerId } from '@/lib/types';
+import { getSessionPartner, unauthorized } from '@/lib/auth';
+import { stateResponse } from '@/lib/view';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
+  const me = getSessionPartner(request);
+  if (!me) return unauthorized();
+
   try {
     const body = await request.json();
-    const { partnerId, mood, moodEmoji } = body;
+    const { mood, moodEmoji } = body;
 
-    if (!partnerId || !mood) {
-      return NextResponse.json({ error: 'Missing partnerId or mood' }, { status: 400 });
+    if (typeof mood !== 'string' || !mood.trim() || mood.length > 60) {
+      return NextResponse.json({ error: 'Mood must be 1–60 characters' }, { status: 400 });
     }
+    const emoji = typeof moodEmoji === 'string' && moodEmoji.length <= 16 ? moodEmoji : '🥰';
 
-    const updated = await updateMood(partnerId as PartnerId, mood, moodEmoji || '🥰');
-    return NextResponse.json(updated);
+    const updated = await updateMood(me, mood, emoji);
+    return stateResponse(updated, me);
   } catch (error) {
     console.error('Error updating mood:', error);
     return NextResponse.json({ error: 'Failed to update mood' }, { status: 500 });

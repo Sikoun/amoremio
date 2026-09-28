@@ -87,7 +87,9 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({
                         {coupleState.partner1.avatarEmoji} {coupleState.partner1.name}:
                       </span>
                       <p className="text-xs text-rose-900 leading-snug">
-                        &ldquo;{answer.partner1.text}&rdquo;
+                        {answer.partner1.hidden
+                          ? '🔒 Answered! Reply to today\'s question to reveal it.'
+                          : <>&ldquo;{answer.partner1.text}&rdquo;</>}
                       </p>
                     </div>
                   ) : (
@@ -103,7 +105,9 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({
                         {coupleState.partner2.avatarEmoji} {coupleState.partner2.name}:
                       </span>
                       <p className="text-xs text-pink-950 leading-snug">
-                        &ldquo;{answer.partner2.text}&rdquo;
+                        {answer.partner2.hidden
+                          ? '🔒 Answered! Reply to today\'s question to reveal it.'
+                          : <>&ldquo;{answer.partner2.text}&rdquo;</>}
                       </p>
                     </div>
                   ) : (

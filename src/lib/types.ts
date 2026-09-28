@@ -154,6 +154,7 @@ export interface Question {
 export interface QuestionAnswer {
   text: string;
   answeredAt: string;
+  hidden?: boolean; // partner's answer withheld by the server until you answer too
 }
 
 export interface DailyAnswers {
@@ -172,6 +173,8 @@ export interface Poke {
 }
 
 export interface CoupleData {
+  todayKey: string; // YYYY-MM-DD in the couple's shared timezone
+  me?: PartnerId; // who this device is paired as (set by /api/state)
   anniversaryDate: string; // YYYY-MM-DD
   partner1: Partner;
   partner2: Partner;

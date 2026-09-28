@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import { CoupleData, PetType, PET_EMOJIS } from '@/lib/types';
-import { X, Save, Heart, Sparkles } from 'lucide-react';
+import { X, Save, Heart, Sparkles, LogOut } from 'lucide-react';
 import { haptic } from '@/lib/haptics';
+import { postState } from '@/lib/api';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -48,27 +49,19 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     haptic.lightTap();
     setIsSaving(true);
     try {
-      const res = await fetch('/api/state', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          partner1Name,
-          partner2Name,
-          anniversaryDate,
-          partner1Pet,
-          partner2Pet,
-        }),
+      const updated = await postState('/api/state', {
+        partner1Name,
+        partner2Name,
+        anniversaryDate,
+        partner1Pet,
+        partner2Pet,
       });
-
-      if (res.ok) {
-        const updated = await res.json();
-        onStateUpdated(updated);
-        setSuccessNotice(true);
-        setTimeout(() => {
-          setSuccessNotice(false);
-          onClose();
-        }, 1200);
-      }
+      onStateUpdated(updated);
+      setSuccessNotice(true);
+      setTimeout(() => {
+        setSuccessNotice(false);
+        onClose();
+      }, 1200);
     } catch (err) {
       console.error('Failed to save settings:', err);
     } finally {
@@ -267,6 +260,19 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               <span>{isSaving ? 'Saving...' : 'Save Settings & Pets'}</span>
             </button>
           </div>
+
+          <button
+            type="button"
+            onClick={async () => {
+              if (!window.confirm('Unpair this device? You will need your pairing code to get back in.')) return;
+              await fetch('/api/auth', { method: 'DELETE' }).catch(() => {});
+              window.location.reload();
+            }}
+            className="w-full py-2 text-[11px] font-semibold text-rose-400 hover:text-rose-600 transition flex items-center justify-center gap-1.5"
+          >
+            <LogOut className="w-3 h-3" />
+            <span>Unpair this device</span>
+          </button>
         </form>
       </div>
     </div>
